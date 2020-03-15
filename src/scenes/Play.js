@@ -1,5 +1,3 @@
-import config from "../config";
-
 let platforms,
 	player,
 	cursors,
