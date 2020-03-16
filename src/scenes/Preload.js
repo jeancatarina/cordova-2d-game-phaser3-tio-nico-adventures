@@ -7,6 +7,7 @@ import platformImage from "../assets/images/desertPlatform.png";
 import skyImage from "../assets/images/desert.png";
 import starImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
+import buttonHorizontalImage from "../assets/images/button-horizontal.png";
 
 export class Preload extends Phaser.Scene {
 	constructor() {
@@ -25,6 +26,10 @@ export class Preload extends Phaser.Scene {
 		this.load.spritesheet("dude", dudeImage, {
 			frameWidth: 50,
 			frameHeight: 70
+		});
+		this.load.spritesheet('buttonHorizontal', buttonHorizontalImage, {
+			frameWidth: 96,
+			frameHeight: 64
 		});
 	}
 

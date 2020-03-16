@@ -5,7 +5,7 @@ export default {
 	width: 800,
 	height: 600,
 	scale: {
-		mode: Phaser.Scale.FIT,
+		mode: Phaser.Scale.EXACT_FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH
 	},
 	parent: "phaser-example",

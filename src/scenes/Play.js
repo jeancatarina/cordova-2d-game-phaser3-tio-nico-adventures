@@ -20,6 +20,10 @@ export class Play extends Phaser.Scene {
 	}
 
 	create() {
+		let jumpButton, rightButton, leftButton;
+
+		this.input.addPointer(2);
+
 		this.resetStates();
 
 		//  A simple background for our game
@@ -86,6 +90,20 @@ export class Play extends Phaser.Scene {
 			repeat: -1
 		});
 
+		jumpButton, rightButton, leftButton = this.add.sprite(100, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		jumpButton, rightButton, leftButton.setInteractive();
+		jumpButton, rightButton, leftButton.on('pointerover', this.doJump);
+
+		rightButton = this.add.sprite(740, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		rightButton.setInteractive();
+		rightButton.on('pointerover', this.goRight);
+		rightButton.on('pointerout', this.doStop);
+
+		leftButton = this.add.sprite(600, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		leftButton.setInteractive();
+		leftButton.on('pointerover', this.goLeft);
+		leftButton.on('pointerout', this.doStop);
+		
 		//  Input Events
 		cursors = this.input.keyboard.createCursorKeys();
 
@@ -139,20 +157,38 @@ export class Play extends Phaser.Scene {
 		}
 
 		if (cursors.left.isDown) {
-			player.setVelocityX(-160);
-
-			player.anims.play("left", true);
+			this.goLeft();
 		} else if (cursors.right.isDown) {
-			player.setVelocityX(160);
-
-			player.anims.play("right", true);
+			this.goRight();
 		} else {
-			player.setVelocityX(0);
-
-			player.anims.play("turn");
+			// this.doStop();
 		}
 
-		if (cursors.up.isDown && player.body.touching.down) {
+		if (cursors.up.isDown) {
+			this.doJump();
+		}
+	}
+
+	goLeft() {
+		player.setVelocityX(-160);
+
+		player.anims.play("left", true);
+	}
+
+	goRight() {
+		player.setVelocityX(160);
+
+		player.anims.play("right", true);
+	}
+
+	doStop() {
+		player.setVelocityX(0);
+
+		player.anims.play("turn");
+	}
+
+	doJump() {
+		if (player.body.touching.down) {
 			player.setVelocityY(-330);
 		}
 	}
