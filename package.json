@@ -7,7 +7,9 @@
   "scripts": {
     "get-ip": "echo $(echo 'http://')$(ipconfig getifaddr en0)",
     "build": "webpack --mode=production",
-    "serve": "webpack-dev-server"
+    "serve": "webpack-dev-server",
+    "ios": "rm -rf .git/index.lock && cordova run ios",
+    "clear": ". scripts/Clear.sh"
   },
   "keywords": [
     "ecosystem:cordova"
