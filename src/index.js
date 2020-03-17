@@ -6,11 +6,22 @@ new Phaser.Game(config)
 
 function onDeviceReady() {
 	document.removeEventListener('deviceready', onDeviceReady, false);
+
+	let adPublisherIds = {
+		ios : {
+		  banner : "ca-app-pub-3023793039344798~8524973962",
+		  interstitial : "ca-app-pub-3023793039344798/4585728954"
+		},
+		android : {
+		  banner : "ca-app-pub-3023793039344798~2526541821",
+		  interstitial : "ca-app-pub-3023793039344798/4769561780"
+		}
+	  }, admobid = (/(android)/i.test(navigator.userAgent)) ? adPublisherIds.android : adPublisherIds.ios;
 	
 	// Set AdMobAds options:
 	admob.setOptions({
-	  publisherId:           "ca-app-pub-3023793039344798~8524973962",  // Required
-	  interstitialAdId:      "ca-app-pub-3023793039344798/4585728954",  // Optional
+	  publisherId:           admobid.banner,  // Required
+	  interstitialAdId:      admobid.interstitial,  // Optional
 	  autoShowBanner:        true,                                      // Optional
 	  autoShowRInterstitial: false,                                     // Optional
 	  autoShowRewarded:      false,                                     // Optional
