@@ -7,7 +7,8 @@ let platforms,
 	gameOver = false,
 	scoreText,
 	recordScoreText,
-	jesus;
+	jesus,
+	deaths = 0;
 
 export class Play extends Phaser.Scene {
 	constructor() {
@@ -223,6 +224,12 @@ export class Play extends Phaser.Scene {
 	}
 
 	hitBomb(player, bomb) {
+		deaths++;
+		if (deaths === 4) {
+			admob.requestInterstitialAd();
+			deaths = 0;
+		};
+
 		this.physics.pause();
 
 		player.setTint(0xff0000);
