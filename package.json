@@ -53,8 +53,8 @@
       "cordova-admob": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

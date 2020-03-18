@@ -20,6 +20,18 @@ export class Play extends Phaser.Scene {
 		score = 0;
 	}
 
+	createBg() {
+		let bg = this.add.image(0, 0, "sky");
+
+		bg.displayHeight = this.sys.game.config.height;
+		bg.scaleX = bg.scaleY;
+
+		bg.y = this.game.config.height / 2;
+		bg.x = this.game.config.width / 2;
+
+		bg.x = bg.displayWidth * 0.4;
+	}
+
 	create() {
 		let jumpButton, rightButton, leftButton;
 
@@ -28,7 +40,7 @@ export class Play extends Phaser.Scene {
 		this.resetStates();
 
 		//  A simple background for our game
-		this.add.image(400, 300, "sky");
+		this.createBg();
 
 		//  The platforms group contains the ground and the 2 ledges we can jump on
 		platforms = this.physics.add.staticGroup();
@@ -37,17 +49,25 @@ export class Play extends Phaser.Scene {
 		//  Here we create the ground.
 		//  Scale it to fit the width of the game (the original sprite is 400x32 in size)
 		platforms
-			.create(400, 568, "ground")
+			.create(200, 568, "ground")
 			.setScale(2)
 			.refreshBody();
-
-		//  Now let's create some ledges
 		platforms
-			.create(500, 370, "ground")
+			.create(480, 568, "ground2")
+			.setScale(2)
+			.refreshBody();
+		platforms
+			.create(670, 568, "ground2")
+			.setScale(2)
+			.refreshBody();
+		platforms
+			.create(550, 300, "ground2")
 			.setScale(0.5)
 			.refreshBody();
-		platforms.create(50, 250, "ground");
-		platforms.create(750, 220, "ground");
+		platforms
+			.create(400, 400, "ground2")
+		platforms.create(120, 250, "ground");
+		platforms.create(700, 220, "ground");
 		//left low
 		jesus.create(300, 480, "jesus");
 		// left high
