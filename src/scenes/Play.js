@@ -1,3 +1,5 @@
+import nipplejs from "nipplejs";
+
 let platforms,
 	player,
 	cursors,
@@ -9,6 +11,17 @@ let platforms,
 	recordScoreText,
 	jesus,
 	deaths = 0;
+
+var joystick = nipplejs.create({
+		zone: document.getElementById('joystickContainer'),
+		color: 'gray',
+		restJoystick: true,
+		restOpacity: 0.5,
+		lockX: true,
+		mode: "static",
+		position: {left: '25%', top: '80%'},
+		size: 80
+	});
 
 export class Play extends Phaser.Scene {
 	constructor() {
@@ -32,8 +45,32 @@ export class Play extends Phaser.Scene {
 		bg.x = bg.displayWidth * 0.4;
 	}
 
+	bindJoystick() {
+		let position, me = this;
+
+		joystick.on('move', function(evt, data) {
+			position = data && data.direction && data.direction.x;
+
+			console.log(data);
+
+			if (position === "left") {
+				console.log("left");
+				me.goLeft();
+			} else if (position === "right") {
+				console.log("right");
+				me.goRight();
+			}
+		});
+
+		joystick.on('end', function(evt, data) {
+			me.doStop();
+		});
+	}
+
 	create() {
 		let jumpButton, rightButton, leftButton;
+
+		this.bindJoystick();
 
 		this.input.addPointer(2);
 
@@ -113,19 +150,19 @@ export class Play extends Phaser.Scene {
 			repeat: -1
 		});
 
-		jumpButton, rightButton, leftButton = this.add.sprite(100, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		jumpButton, rightButton, leftButton = this.add.sprite(700, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
 		jumpButton, rightButton, leftButton.setInteractive();
 		jumpButton, rightButton, leftButton.on('pointerover', this.doJump);
 
-		rightButton = this.add.sprite(740, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
-		rightButton.setInteractive();
-		rightButton.on('pointerover', this.goRight);
-		rightButton.on('pointerout', this.doStop);
+		// rightButton = this.add.sprite(740, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		// rightButton.setInteractive();
+		// rightButton.on('pointerover', this.goRight);
+		// rightButton.on('pointerout', this.doStop);
 
-		leftButton = this.add.sprite(600, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
-		leftButton.setInteractive();
-		leftButton.on('pointerover', this.goLeft);
-		leftButton.on('pointerout', this.doStop);
+		// leftButton = this.add.sprite(600, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		// leftButton.setInteractive();
+		// leftButton.on('pointerover', this.goLeft);
+		// leftButton.on('pointerout', this.doStop);
 		
 		//  Input Events
 		cursors = this.input.keyboard.createCursorKeys();
