@@ -228,7 +228,10 @@ export class Play extends Phaser.Scene {
 	hitBomb(player, bomb) {
 		deaths++;
 		if (deaths === 4) {
-			admob.requestInterstitialAd();
+			//	only works on mobile
+			if (typeof admob !== "undefined") {
+				admob.requestInterstitialAd();
+			}
 			deaths = 0;
 		};
 
