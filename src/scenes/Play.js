@@ -60,6 +60,8 @@ export class Play extends Phaser.Scene {
 		// The player and its settings
 		player = this.physics.add.sprite(100, 450, "dude");
 
+		player.setGravityY(500);
+
 		//  Player physics properties. Give the little guy a slight bounce.
 		player.setBounce(0.2);
 		player.setCollideWorldBounds(true);
@@ -171,13 +173,13 @@ export class Play extends Phaser.Scene {
 	}
 
 	goLeft() {
-		player.setVelocityX(-160);
+		player.setVelocityX(-200);
 
 		player.anims.play("left", true);
 	}
 
 	goRight() {
-		player.setVelocityX(160);
+		player.setVelocityX(200);
 
 		player.anims.play("right", true);
 	}
@@ -190,7 +192,7 @@ export class Play extends Phaser.Scene {
 
 	doJump() {
 		if (player.body.touching.down) {
-			player.setVelocityY(-330);
+			player.setVelocityY(-550);
 		}
 	}
 
