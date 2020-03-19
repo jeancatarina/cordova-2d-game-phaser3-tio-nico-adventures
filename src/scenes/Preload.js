@@ -5,6 +5,7 @@ import perfectImage from "../assets/images/perfeitos.png";
 import dudeImage from "../assets/images/nicoBigSprite.png";
 import platformImage from "../assets/images/ground.png";
 import ground2Image from "../assets/images/ground2.png";
+import ground3Image from "../assets/images/ground3.png";
 import skyImage from "../assets/images/bg2.png";
 import starImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
@@ -19,6 +20,7 @@ export class Preload extends Phaser.Scene {
 		this.load.image("sky", skyImage);
 		this.load.image("ground", platformImage);
 		this.load.image("ground2", ground2Image);
+		this.load.image("ground3", ground3Image);
 		this.load.image("jesus", jesusImage);
 		this.load.image("star", starImage);
 		this.load.image("bomb", bombImage);

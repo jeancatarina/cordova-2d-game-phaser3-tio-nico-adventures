@@ -85,26 +85,40 @@ export class Play extends Phaser.Scene {
 
 		//  Here we create the ground.
 		//  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+		//	left center floors
 		platforms
-			.create(200, 568, "ground")
-			.setScale(2)
+			.create(300, 568, "ground3")
+			.setScale(2.2)
 			.refreshBody();
+		//	left external floors
 		platforms
-			.create(480, 568, "ground2")
-			.setScale(2)
+			.create(100, 568, "ground2")
+			.setScale(2.2)
 			.refreshBody();
+		//	center right floor
 		platforms
-			.create(670, 568, "ground2")
-			.setScale(2)
+			.create(500, 568, "ground2")
+			.setScale(2.2)
 			.refreshBody();
+		//	external right floor
+		platforms
+			.create(700, 568, "ground2")
+			.setScale(2.2)
+			.refreshBody();
+
+		//	center tiny platform
 		platforms
 			.create(550, 300, "ground2")
 			.setScale(0.5)
 			.refreshBody();
+		//	center platform
 		platforms
 			.create(400, 400, "ground2")
+		//	left high platform
 		platforms.create(120, 250, "ground");
+		//	right high platform
 		platforms.create(700, 220, "ground");
+
 		//left low
 		jesus.create(300, 480, "jesus");
 		// left high
@@ -120,7 +134,7 @@ export class Play extends Phaser.Scene {
 		player.setGravityY(500);
 
 		//  Player physics properties. Give the little guy a slight bounce.
-		player.setBounce(0.2);
+		player.setBounceY(0.2);
 		player.setCollideWorldBounds(true);
 
 		//  Our player animations, turning, walking left and walking right.
