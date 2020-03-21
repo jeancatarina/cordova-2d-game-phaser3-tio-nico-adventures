@@ -3,7 +3,7 @@ import nipplejs from "nipplejs";
 let platforms,
 	player,
 	cursors,
-	stars,
+	papers,
 	bombs,
 	score = 0,
 	gameOver = false,
@@ -51,13 +51,9 @@ export class Play extends Phaser.Scene {
 		joystick.on('move', function(evt, data) {
 			position = data && data.direction && data.direction.x;
 
-			console.log(data);
-
 			if (position === "left") {
-				console.log("left");
 				me.goLeft();
 			} else if (position === "right") {
-				console.log("right");
 				me.goRight();
 			}
 		});
@@ -67,24 +63,21 @@ export class Play extends Phaser.Scene {
 		});
 	}
 
-	create() {
-		let jumpButton, rightButton, leftButton;
+	startMusicHappy() {
+        this.musicHappy.loop = true;
 
-		this.bindJoystick();
+        this.musicHappy.play();
+	}
 
-		this.input.addPointer(2);
+	addSounds() {
+		this.musicHappy = this.sound.add("musicSound");
+		this.paperSound = this.sound.add("paperSound");
+		this.gameOverSound = this.sound.add("gameOverSound");
+	}
 
-		this.resetStates();
-
-		//  A simple background for our game
-		this.createBg();
-
-		//  The platforms group contains the ground and the 2 ledges we can jump on
+	createPlatforms() {
 		platforms = this.physics.add.staticGroup();
-		jesus = this.physics.add.staticGroup();
 
-		//  Here we create the ground.
-		//  Scale it to fit the width of the game (the original sprite is 400x32 in size)
 		platforms
 			.create(200, 568, "ground")
 			.setScale(2)
@@ -105,6 +98,11 @@ export class Play extends Phaser.Scene {
 			.create(400, 400, "ground2")
 		platforms.create(120, 250, "ground");
 		platforms.create(700, 220, "ground");
+	}
+
+	createJesus() {
+		jesus = this.physics.add.staticGroup();
+
 		//left low
 		jesus.create(300, 480, "jesus");
 		// left high
@@ -113,7 +111,9 @@ export class Play extends Phaser.Scene {
 		jesus.create(650, 150, "jesus");
 		// right low
 		jesus.create(650, 480, "jesus");
+	}
 
+	createPlayer() {
 		// The player and its settings
 		player = this.physics.add.sprite(100, 450, "dude");
 
@@ -149,38 +149,35 @@ export class Play extends Phaser.Scene {
 			frameRate: 10,
 			repeat: -1
 		});
+	}
 
-		jumpButton, rightButton, leftButton = this.add.sprite(700, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
-		jumpButton, rightButton, leftButton.setInteractive();
-		jumpButton, rightButton, leftButton.on('pointerover', this.doJump);
+	createButtons() {
+		let jumpButton;
 
-		// rightButton = this.add.sprite(740, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
-		// rightButton.setInteractive();
-		// rightButton.on('pointerover', this.goRight);
-		// rightButton.on('pointerout', this.doStop);
+		jumpButton = this.add.sprite(700, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
+		jumpButton.setInteractive();
+		jumpButton.on('pointerover', this.doJump);
+	}
 
-		// leftButton = this.add.sprite(600, 500, 'buttonHorizontal', null, this, 0, 1, 0, 1);
-		// leftButton.setInteractive();
-		// leftButton.on('pointerover', this.goLeft);
-		// leftButton.on('pointerout', this.doStop);
-		
-		//  Input Events
-		cursors = this.input.keyboard.createCursorKeys();
-
-		//  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-		stars = this.physics.add.group({
-			key: "star",
+	createPapers() {
+		//  Some papers to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+		papers = this.physics.add.group({
+			key: "paper",
 			repeat: 11,
 			setXY: { x: 12, y: 0, stepX: 70 }
 		});
 
-		stars.children.iterate(function(child) {
-			//  Give each star a slightly different bounce
+		papers.children.iterate(function(child) {
+			//  Give each paper a slightly different bounce
 			child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 		});
+	}
 
+	createHeresy() {
 		bombs = this.physics.add.group();
-
+	}
+	
+	createScore() {
 		//  The score
 		scoreText = this.add.text(16, 16, "score: 0", {
 			fontSize: "32px",
@@ -197,18 +194,54 @@ export class Play extends Phaser.Scene {
 				}
 			);
 		}
+	}
 
-		//  Collide the player and the stars with the platforms
+	createCollide() {
+		//  Collide the player and the papers with the platforms
 		this.physics.add.collider(player, platforms);
-		this.physics.add.collider(stars, jesus);
+		this.physics.add.collider(papers, jesus);
 		this.physics.add.collider(bombs, jesus);
-		this.physics.add.collider(stars, platforms);
+		this.physics.add.collider(papers, platforms);
 		this.physics.add.collider(bombs, platforms);
 
-		//  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-		this.physics.add.overlap(player, stars, this.collectStar, null, this);
+		//  Checks to see if the player overlaps with any of the papers, if he does call the collectPaper function
+		this.physics.add.overlap(player, papers, this.collectPaper, null, this);
 
 		this.physics.add.collider(player, bombs, this.hitBomb, null, this);
+	}
+	
+	create() {
+		this.resetStates();
+
+		this.bindJoystick();
+
+		this.input.addPointer(2);
+		
+		//  A simple background for our game
+		this.createBg();
+
+		this.addSounds();
+
+		this.startMusicHappy();
+
+		this.createPlatforms();
+
+		this.createJesus();
+
+		this.createPlayer();
+
+		this.createButtons();
+
+		//  Input Events
+		cursors = this.input.keyboard.createCursorKeys();
+
+		this.createPapers();
+
+		this.createHeresy();
+
+		this.createScore();
+
+		this.createCollide();
 	}
 
 	update() {
@@ -220,8 +253,6 @@ export class Play extends Phaser.Scene {
 			this.goLeft();
 		} else if (cursors.right.isDown) {
 			this.goRight();
-		} else {
-			// this.doStop();
 		}
 
 		if (cursors.up.isDown) {
@@ -253,19 +284,21 @@ export class Play extends Phaser.Scene {
 		}
 	}
 
-	collectStar(player, star) {
+	collectPaper(player, paper) {
 		let heresy = ["bomb", "center", "law", "perfect"],
 			randomNumber = Math.floor(Math.random() * heresy.length);
 
-		star.disableBody(true, true);
+		this.paperSound.play();
+
+		paper.disableBody(true, true);
 
 		//  Add and update the score
 		score += 10;
 		scoreText.setText("Score: " + score);
 
-		if (stars.countActive(true) === 0) {
-			//  A new batch of stars to collect
-			stars.children.iterate(function(child) {
+		if (papers.countActive(true) === 0) {
+			//  A new batch of papers to collect
+			papers.children.iterate(function(child) {
 				child.enableBody(true, child.x, 0, true, true);
 			});
 
@@ -282,7 +315,7 @@ export class Play extends Phaser.Scene {
 		}
 	}
 
-	hitBomb(player, bomb) {
+	doDeath() {
 		deaths++;
 		if (deaths === 4) {
 			//	only works on mobile
@@ -291,6 +324,10 @@ export class Play extends Phaser.Scene {
 			}
 			deaths = 0;
 		};
+
+		this.gameOverSound.play();
+
+		this.musicHappy.pause();
 
 		this.physics.pause();
 
@@ -305,6 +342,10 @@ export class Play extends Phaser.Scene {
 		}
 
 		this.scene.restart();
+	}
+
+	hitBomb() {
+		this.doDeath(player);
 	}
 
 	getRecordScore() {

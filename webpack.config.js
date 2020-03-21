@@ -6,6 +6,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const host  = '0.0.0.0'
 const port  = 8080
 
+const SRC = path.resolve(__dirname, 'src');
+
 module.exports = {
   entry: {
     app: './src/index.js'
@@ -67,6 +69,11 @@ module.exports = {
             esModule: false
           }
         }
+	  },
+	  {
+        test: /\.mp3$/,
+        include: SRC,
+        loader: 'file-loader'
       },
       {
         test: /\.scss$/,
