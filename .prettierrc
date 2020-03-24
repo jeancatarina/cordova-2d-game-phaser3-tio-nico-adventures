@@ -1,0 +1,13 @@
+{
+  "tabWidth": 4,
+  "useTabs": true,
+  "bracketSpacing": true,
+  "singleQuote": false,
+  "printWidth": 130,
+  "editor.formatOnSave": true,
+  "proseWrap": "always",
+  "requireConfig": false,
+  "trailingComma": "none",
+  "jsxBracketSameLine": false,
+  "semi": true
+}
