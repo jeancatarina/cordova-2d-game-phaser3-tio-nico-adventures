@@ -53,9 +53,13 @@ export class Menu extends Phaser.Scene {
     this.pressEnter.setInteractive();
     this.pressEnter.on("pointerover", this.startGame);
 
+    this.createSoundButton();
+
     // var startKey = this.input.keyboard.addKey("ENTER");
     // startKey.onDown.add(this.startGame, this);
     this.state = 1;
+
+    this.sound.mute = this.getIsMuted();
 
     // this.time.addEvent({ delay: 700, callback: this.blinkText, callbackScope: this, loop: true });
   }
@@ -84,4 +88,24 @@ export class Menu extends Phaser.Scene {
   }
 
   update() {}
+
+  createSoundButton() {
+    this.soundButton = this.add.image(700, 350, this.getIsMuted() ? "soundOffImage" : "soundOnImage");
+    this.soundButton.setInteractive();
+    this.soundButton.on("pointerover", this.setSoundState.bind(this));
+  }
+
+  setSoundState() {
+    this.setIsMuted(!this.getIsMuted());
+    this.createSoundButton();
+  }
+
+  getIsMuted() {
+    return window.localStorage.getItem("isMuted") === "true" || window.localStorage.getItem("isMuted") == undefined;
+  }
+
+  setIsMuted(val) {
+    this.sound.mute = val;
+    window.localStorage.setItem("isMuted", val);
+  }
 }
