@@ -90,7 +90,11 @@ export class Menu extends Phaser.Scene {
   update() {}
 
   createSoundButton() {
-    this.soundButton = this.add.image(700, 350, this.getIsMuted() ? "soundOffImage" : "soundOnImage");
+    this.soundButton = this.add.image(
+      700,
+      350,
+      this.getIsMuted() ? "soundOffImage" : "soundOnImage"
+    );
     this.soundButton.setInteractive();
     this.soundButton.on("pointerover", this.setSoundState.bind(this));
   }
@@ -101,7 +105,10 @@ export class Menu extends Phaser.Scene {
   }
 
   getIsMuted() {
-    return window.localStorage.getItem("isMuted") === "true" || window.localStorage.getItem("isMuted") == undefined;
+    return (
+      window.localStorage.getItem("isMuted") === "true" ||
+      window.localStorage.getItem("isMuted") == undefined
+    );
   }
 
   setIsMuted(val) {

@@ -1,8 +1,10 @@
 // Menu
 import titleImage from "../assets/sprites/title-screen.png";
-import enterImage from "../assets/sprites/press-enter-text.png";
 import creditsImage from "../assets/sprites/credits-text.png";
 import instructionsImage from "../assets/sprites/instructions.png";
+import jogarImage from "../assets/sprites/Jogar.png";
+import soundOffImage from "../assets/sprites/soundOff.png";
+import soundOnImage from "../assets/sprites/soundOn.png";
 
 // Play
 import heresyImage from "../assets/images/quemMaisLeao.png";
@@ -16,6 +18,7 @@ import skyImage from "../assets/images/bg2.png";
 import paperImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
 import buttonHorizontalImage from "../assets/images/button-horizontal.png";
+
 // sounds
 import paperSound from "../assets/sounds/paper.mp3";
 import bgSound from "../assets/sounds/mainMusic.mp3";
@@ -33,10 +36,12 @@ export class Preload extends Phaser.Scene {
 
   loadImages() {
     // Menu
-    this.load.image("titleImage", "assets/sprites/title-screen.png");
-    this.load.image("jogarImage", "assets/sprites/Jogar.png");
-    this.load.image("creditsImage", "assets/sprites/credits-text.png");
-    this.load.image("instructionsImage", "assets/sprites/instructions.png");
+    this.load.image("titleImage", titleImage);
+    this.load.image("jogarImage", jogarImage);
+    this.load.image("creditsImage", creditsImage);
+    this.load.image("instructionsImage", instructionsImage);
+    this.load.image("soundOffImage", soundOffImage);
+    this.load.image("soundOnImage", soundOnImage);
 
     // Play
     this.load.image("sky", skyImage);
