@@ -49,9 +49,7 @@ export class Menu extends Phaser.Scene {
 
     this.createPlayer();
 
-    this.pressEnter = this.add.image(700, 500, "jogarImage");
-    this.pressEnter.setInteractive();
-    this.pressEnter.on("pointerover", this.startGame);
+    this.createPlayButton();
 
     this.createSoundButton();
 
@@ -96,7 +94,13 @@ export class Menu extends Phaser.Scene {
       this.getIsMuted() ? "soundOffImage" : "soundOnImage"
     );
     this.soundButton.setInteractive();
-    this.soundButton.on("pointerover", this.setSoundState.bind(this));
+    this.soundButton.on("pointerdown", this.setSoundState.bind(this));
+  }
+
+  createPlayButton() {
+    this.pressEnter = this.add.image(700, 500, "jogarImage");
+    this.pressEnter.setInteractive();
+    this.pressEnter.on("pointerover", this.startGame);
   }
 
   setSoundState() {

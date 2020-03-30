@@ -18,6 +18,7 @@ import skyImage from "../assets/images/bg2.png";
 import paperImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
 import buttonHorizontalImage from "../assets/images/button-horizontal.png";
+import potionImage from "../assets/sprites/potion.png";
 
 // sounds
 import paperSound from "../assets/sounds/paper.mp3";
@@ -60,6 +61,10 @@ export class Preload extends Phaser.Scene {
     this.load.spritesheet("buttonHorizontal", buttonHorizontalImage, {
       frameWidth: 96,
       frameHeight: 64
+    });
+    this.load.spritesheet("potionImage", potionImage, {
+      frameWidth: 32,
+      frameHeight: 32
     });
   }
 

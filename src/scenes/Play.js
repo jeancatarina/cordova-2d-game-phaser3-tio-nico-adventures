@@ -6,7 +6,7 @@ let platforms,
   player,
   cursors,
   papers,
-  heresys,
+  heresys = { countActive: () => 0 },
   score = 0,
   gameOver = false,
   scoreText,
@@ -17,13 +17,14 @@ let platforms,
 export class Play extends Phaser.Scene {
   constructor() {
     super("Play");
-
-    this.store = {};
   }
 
   resetStates() {
     gameOver = false;
     score = 0;
+    this.store = {
+      level: 0
+    };
   }
 
   createBg() {
@@ -85,32 +86,39 @@ export class Play extends Phaser.Scene {
   createPlatforms() {
     platforms = this.physics.add.staticGroup();
 
+    // left bottom
     platforms
       .create(200, 568, "ground")
       .setScale(2)
       .refreshBody();
+    // bottom middle
     platforms
-      .create(480, 568, "ground2")
+      .create(490, 568, "ground2")
       .setScale(2)
       .refreshBody();
+    // bottom right
     platforms
-      .create(670, 568, "ground2")
+      .create(690, 568, "ground2")
       .setScale(2)
       .refreshBody();
+    // small in middle
     platforms
-      .create(550, 300, "ground2")
+      .create(500, 300, "ground2")
       .setScale(0.5)
       .refreshBody();
-    platforms.create(400, 400, "ground2");
-    platforms.create(120, 250, "ground");
-    platforms.create(700, 220, "ground");
+    // middle middle
+    platforms.create(350, 400, "ground2");
+    // top left
+    platforms.create(150, 250, "ground");
+    // top right
+    platforms.create(650, 220, "ground");
   }
 
   createJesus() {
     jesus = this.physics.add.staticGroup();
 
     //left low
-    jesus.create(300, 480, "jesus");
+    jesus.create(200, 480, "jesus");
     // left high
     jesus.create(200, 180, "jesus");
     // right high
@@ -134,7 +142,9 @@ export class Play extends Phaser.Scene {
       1
     );
     jumpButton.setInteractive();
-    jumpButton.on("pointerover", this.doJump);
+    jumpButton.on("pointerover", () => {
+      this.store.lastJumpTime = new Date();
+    });
   }
 
   createPapers() {
@@ -161,6 +171,17 @@ export class Play extends Phaser.Scene {
       fontSize: "32px",
       fill: "#000"
     });
+
+    this.store.levelText = this.add.text(
+      600,
+      16,
+      "level: " + this.store.level,
+      {
+        fontSize: "32px",
+        fill: "#000"
+      }
+    );
+
     if (this.getRecordScore()) {
       recordScoreText = this.add.text(
         16,
@@ -178,14 +199,34 @@ export class Play extends Phaser.Scene {
     //  Collide the player and the papers with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(papers, jesus);
-    this.physics.add.collider(heresys, jesus);
     this.physics.add.collider(papers, platforms);
+    this.physics.add.collider(heresys, jesus);
     this.physics.add.collider(heresys, platforms);
+    this.physics.add.collider(this.store.potion, platforms);
+    this.physics.add.collider(this.store.potion, papers);
+    this.physics.add.collider(this.store.potion, jesus);
 
     //  Checks to see if the player overlaps with any of the papers, if he does call the collectPaper function
     this.physics.add.overlap(player, papers, this.collectPaper, null, this);
 
     this.physics.add.collider(player, heresys, this.hitHeresy, null, this);
+  }
+
+  createPotion() {
+    this.anims.create({
+      key: "changePotion",
+      frames: this.anims.generateFrameNames("potionImage"),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    this.store.potion = this.physics.add
+      .group({
+        key: "potionImage",
+        repeat: 0,
+        setXY: { x: 550, y: 32, stepX: 70 }
+      })
+      .playAnimation("changePotion", 0);
   }
 
   create() {
@@ -195,7 +236,7 @@ export class Play extends Phaser.Scene {
 
     this.bindJoystick();
 
-    this.input.addPointer(2);
+    this.input.addPointer(4);
 
     //  A simple background for our game
     this.createBg();
@@ -218,6 +259,8 @@ export class Play extends Phaser.Scene {
 
     this.createPapers();
 
+    this.createPotion();
+
     this.createHeresy();
 
     this.createScore();
@@ -237,6 +280,11 @@ export class Play extends Phaser.Scene {
     }
 
     if (cursors.up.isDown) {
+      this.store.lastJumpTime = new Date();
+    }
+
+    if (player.body.touching.down && this.store.lastJumpTime > 0) {
+      this.store.lastJumpTime = 0;
       this.doJump();
     }
   }
@@ -260,9 +308,7 @@ export class Play extends Phaser.Scene {
   }
 
   doJump() {
-    if (player.body.touching.down) {
-      player.setVelocityY(-550);
-    }
+    player.setVelocityY(-550);
   }
 
   collectPaper(player, paper) {
@@ -278,6 +324,8 @@ export class Play extends Phaser.Scene {
     scoreText.setText("Score: " + score);
 
     if (papers.countActive(true) === 0) {
+      this.store.level++;
+      this.store.levelText.setText("level: " + this.store.level);
       //  A new batch of papers to collect
       papers.children.iterate(function(child) {
         child.enableBody(true, child.x, 0, true, true);
