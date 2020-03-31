@@ -1,6 +1,7 @@
 import nipplejs from "nipplejs";
 
 import Player from "../Class/Player";
+import { getDifferenceBetweenDatesSeconds } from "../utils/utils";
 
 let platforms,
   player,
@@ -20,10 +21,13 @@ export class Play extends Phaser.Scene {
   }
 
   resetStates() {
+    this.input.addPointer(4);
+
     gameOver = false;
     score = 0;
     this.store = {
-      level: 0
+      level: 0,
+      lastJumpTime: 0
     };
   }
 
@@ -46,8 +50,8 @@ export class Play extends Phaser.Scene {
       restJoystick: true,
       restOpacity: 0.5,
       lockX: true,
-      mode: "dynamic",
-      position: { left: "25%", top: "80%" },
+      mode: "static",
+      position: { left: "30%", top: "80%" },
       size: 80
     });
   }
@@ -130,17 +134,7 @@ export class Play extends Phaser.Scene {
   createButtons() {
     let jumpButton;
 
-    jumpButton = this.add.sprite(
-      700,
-      500,
-      "buttonHorizontal",
-      null,
-      this,
-      0,
-      1,
-      0,
-      1
-    );
+    jumpButton = this.add.sprite(700, 450, "buttonHorizontal", null);
     jumpButton.setInteractive();
     jumpButton.on("pointerover", () => {
       this.store.lastJumpTime = new Date();
@@ -236,8 +230,6 @@ export class Play extends Phaser.Scene {
 
     this.bindJoystick();
 
-    this.input.addPointer(4);
-
     //  A simple background for our game
     this.createBg();
 
@@ -283,9 +275,15 @@ export class Play extends Phaser.Scene {
       this.store.lastJumpTime = new Date();
     }
 
-    if (player.body.touching.down && this.store.lastJumpTime > 0) {
-      this.store.lastJumpTime = 0;
-      this.doJump();
+    if (player.body.touching.down) {
+      if (
+        this.store.lastJumpTime !== 0 &&
+        getDifferenceBetweenDatesSeconds(this.store.lastJumpTime, new Date()) <
+          0.5
+      ) {
+        this.store.lastJumpTime = 0;
+        this.doJump();
+      }
     }
   }
 

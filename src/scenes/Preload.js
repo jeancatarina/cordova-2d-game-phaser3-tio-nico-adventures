@@ -19,6 +19,7 @@ import paperImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
 import buttonHorizontalImage from "../assets/images/button-horizontal.png";
 import potionImage from "../assets/sprites/potion.png";
+import xBtnImage from "../assets/images/xBtn.png";
 
 // sounds
 import paperSound from "../assets/sounds/paper.mp3";
@@ -54,14 +55,15 @@ export class Preload extends Phaser.Scene {
     this.load.image("center", centerImage);
     this.load.image("law", lawImage);
     this.load.image("perfect", perfectImage);
+    this.load.image("buttonHorizontal", xBtnImage);
     this.load.spritesheet("dude", dudeImage, {
       frameWidth: 50,
       frameHeight: 70
     });
-    this.load.spritesheet("buttonHorizontal", buttonHorizontalImage, {
-      frameWidth: 96,
-      frameHeight: 64
-    });
+    // this.load.spritesheet("buttonHorizontal", buttonHorizontalImage, {
+    //   frameWidth: 96,
+    //   frameHeight: 64
+    // });
     this.load.spritesheet("potionImage", potionImage, {
       frameWidth: 32,
       frameHeight: 32
