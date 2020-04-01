@@ -83,8 +83,9 @@ export class Play extends Phaser.Scene {
 
   addSounds() {
     this.musicHappy = this.sound.add("musicSound");
-    this.paperSound = this.sound.add("paperSound");
+    this.paperSound = this.sound.add("paperSound", { volume: 0.8 });
     this.gameOverSound = this.sound.add("gameOverSound");
+    this.akuAkuMusicSound = this.sound.add("akuAkuMusicSound", { volume: 1 });
   }
 
   createPlatforms() {
@@ -155,6 +156,19 @@ export class Play extends Phaser.Scene {
     });
   }
 
+  createPotion() {
+    this.anims.create({
+      key: "changePotion",
+      frames: this.anims.generateFrameNames("potionImage"),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    this.store.potion = this.physics.add
+      .group()
+      .playAnimation("changePotion", 0);
+  }
+
   createHeresy() {
     heresys = this.physics.add.group();
   }
@@ -165,16 +179,6 @@ export class Play extends Phaser.Scene {
       fontSize: "32px",
       fill: "#000"
     });
-
-    this.store.levelText = this.add.text(
-      600,
-      16,
-      "level: " + this.store.level,
-      {
-        fontSize: "32px",
-        fill: "#000"
-      }
-    );
 
     if (this.getRecordScore()) {
       recordScoreText = this.add.text(
@@ -204,23 +208,14 @@ export class Play extends Phaser.Scene {
     this.physics.add.overlap(player, papers, this.collectPaper, null, this);
 
     this.physics.add.collider(player, heresys, this.hitHeresy, null, this);
-  }
 
-  createPotion() {
-    this.anims.create({
-      key: "changePotion",
-      frames: this.anims.generateFrameNames("potionImage"),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.store.potion = this.physics.add
-      .group({
-        key: "potionImage",
-        repeat: 0,
-        setXY: { x: 550, y: 32, stepX: 70 }
-      })
-      .playAnimation("changePotion", 0);
+    this.physics.add.overlap(
+      player,
+      this.store.potion,
+      this.collectPotion,
+      null,
+      this
+    );
   }
 
   create() {
@@ -288,13 +283,13 @@ export class Play extends Phaser.Scene {
   }
 
   goLeft() {
-    player.setVelocityX(-200);
+    player.setVelocityX(this.store.aku ? -500 : -200);
 
     player.anims.play("left", true);
   }
 
   goRight() {
-    player.setVelocityX(200);
+    player.setVelocityX(this.store.aku ? 500 : 200);
 
     player.anims.play("right", true);
   }
@@ -306,12 +301,13 @@ export class Play extends Phaser.Scene {
   }
 
   doJump() {
-    player.setVelocityY(-550);
+    player.setVelocityY(this.store.aku ? -800 : -550);
   }
 
   collectPaper(player, paper) {
     let heresyArray = ["heresy", "center", "law", "perfect"],
-      randomNumber = Math.floor(Math.random() * heresyArray.length);
+      randomNumber = Math.floor(Math.random() * heresyArray.length),
+      randomPotionChance = Math.random() * 100;
 
     this.paperSound.play();
 
@@ -323,7 +319,6 @@ export class Play extends Phaser.Scene {
 
     if (papers.countActive(true) === 0) {
       this.store.level++;
-      this.store.levelText.setText("level: " + this.store.level);
       //  A new batch of papers to collect
       papers.children.iterate(function(child) {
         child.enableBody(true, child.x, 0, true, true);
@@ -339,7 +334,31 @@ export class Play extends Phaser.Scene {
       heresy.setCollideWorldBounds(true);
       heresy.setVelocity(Phaser.Math.Between(-200, 200), 20);
       heresy.allowGravity = false;
+
+      if (this.store.level > 2 && randomPotionChance < 30) {
+        this.store.potionChild = this.store.potion.create(x, 16, "potionImage");
+        this.store.potionChild.setScale(1.5);
+      }
     }
+  }
+
+  akuEnd() {
+    this.akuAkuMusicSound.pause();
+    this.musicHappy.play();
+    player.setTint(undefined);
+
+    this.store.aku = false;
+  }
+
+  collectPotion(player, potion) {
+    console.log("pego");
+    this.musicHappy.pause();
+    this.akuAkuMusicSound.play();
+    this.store.aku = true;
+    potion.disableBody(true, true);
+    player.setTint(Math.random() * 0xffffff);
+
+    this.time.delayedCall(3000, this.akuEnd, [], this);
   }
 
   doDeath() {
@@ -364,6 +383,8 @@ export class Play extends Phaser.Scene {
 
     gameOver = true;
 
+    this.setLastScore(score);
+
     if (this.getRecordScore() <= score) {
       this.setRecordScore(score);
     }
@@ -374,8 +395,12 @@ export class Play extends Phaser.Scene {
     this.scene.start("Menu");
   }
 
-  hitHeresy() {
-    this.doDeath(player);
+  hitHeresy(player, heresy) {
+    if (!this.store.aku) {
+      this.doDeath(player);
+    } else {
+      heresy.disableBody(true, true);
+    }
   }
 
   getRecordScore() {
@@ -384,5 +409,9 @@ export class Play extends Phaser.Scene {
 
   setRecordScore(val) {
     window.localStorage.setItem("recordScore", val);
+  }
+
+  setLastScore(val) {
+    window.localStorage.setItem("lastScore", val);
   }
 }

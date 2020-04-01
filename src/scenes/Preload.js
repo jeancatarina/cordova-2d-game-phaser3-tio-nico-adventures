@@ -25,6 +25,7 @@ import xBtnImage from "../assets/images/xBtn.png";
 import paperSound from "../assets/sounds/paper.mp3";
 import bgSound from "../assets/sounds/mainMusic.mp3";
 import gameOverSound from "../assets/sounds/gameOver.mp3";
+import akuAkuMusicSound from "../assets/sounds/akuAkuMusic.mp3";
 
 export class Preload extends Phaser.Scene {
   constructor() {
@@ -74,6 +75,7 @@ export class Preload extends Phaser.Scene {
     this.load.audio("musicSound", bgSound);
     this.load.audio("paperSound", paperSound);
     this.load.audio("gameOverSound", gameOverSound);
+    this.load.audio("akuAkuMusicSound", akuAkuMusicSound);
   }
 
   create() {

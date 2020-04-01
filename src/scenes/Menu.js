@@ -31,9 +31,22 @@ export class Menu extends Phaser.Scene {
     return window.localStorage.getItem("recordScore");
   }
 
+  getLastScore() {
+    return window.localStorage.getItem("lastScore");
+  }
+
   createRecordScore() {
     if (this.getRecordScore()) {
       this.add.text(300, 200, "Best: " + this.getRecordScore(), {
+        fontSize: "32px",
+        fill: "#000"
+      });
+    }
+  }
+
+  createLastScore() {
+    if (this.getLastScore()) {
+      this.add.text(300, 250, "Last: " + this.getLastScore(), {
         fontSize: "32px",
         fill: "#000"
       });
@@ -46,6 +59,8 @@ export class Menu extends Phaser.Scene {
     this.title = this.add.image(400, 100, "titleImage");
 
     this.createRecordScore();
+
+    this.createLastScore();
 
     this.createPlayer();
 
