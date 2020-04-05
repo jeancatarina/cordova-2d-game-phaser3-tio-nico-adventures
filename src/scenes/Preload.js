@@ -1,3 +1,6 @@
+// PlayerName
+import yesImage from "../assets/sprites/button_yes.png";
+
 // Menu
 import titleImage from "../assets/sprites/title-screen.png";
 import creditsImage from "../assets/sprites/credits-text.png";
@@ -50,10 +53,13 @@ export class Preload extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("Menu", { rexFire: this.store.rexFire });
+    this.scene.start("PlayerName", { rexFire: this.store.rexFire });
   }
 
   loadImages() {
+    // PlayerName
+    this.load.image("yesImage", yesImage);
+
     // Menu
     this.load.image("titleImage", titleImage);
     this.load.image("playImage", playImage);

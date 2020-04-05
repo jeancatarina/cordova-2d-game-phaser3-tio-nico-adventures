@@ -2,6 +2,7 @@ import nipplejs from "nipplejs";
 
 import Player from "../Class/Player";
 import { getDifferenceBetweenDatesSeconds } from "../utils/utils";
+import * as storage from "../utils/storage";
 
 let platforms,
   player,
@@ -243,11 +244,11 @@ export class Play extends Phaser.Scene {
       fill: "#000"
     });
 
-    if (this.getRecordScore()) {
+    if (storage.getRecordScore()) {
       recordScoreText = this.add.text(
         16,
         42,
-        "Best: " + this.getRecordScore(),
+        "Best: " + storage.getRecordScore(),
         {
           fontSize: "32px",
           fill: "#000"
@@ -382,9 +383,9 @@ export class Play extends Phaser.Scene {
 
     gameOver = true;
 
-    this.setLastScore(score);
+    storage.setLastScore(score);
 
-    if (this.getRecordScore() <= score) {
+    if (storage.getRecordScore() <= score) {
       this.setRecordScore(score);
     }
 
@@ -402,21 +403,16 @@ export class Play extends Phaser.Scene {
     }
   }
 
-  getRecordScore() {
-    return window.localStorage.getItem("recordScore");
-  }
-
   setRecordScore(val) {
-    this.store.leaderBoard.setUser(5, "deive leonardo");
+    this.store.leaderBoard.setUser(
+      storage.getUsernameId(),
+      storage.getUsername()
+    );
     this.store.leaderBoard
       .post(val)
       .then(function(record) {})
       .catch(function(error) {});
 
-    window.localStorage.setItem("recordScore", val);
-  }
-
-  setLastScore(val) {
-    window.localStorage.setItem("lastScore", val);
+    storage.setRecordStore(val);
   }
 }

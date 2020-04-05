@@ -6,12 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Phaser 3 Webpack Cordova</title>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+  </head>
+  <body>
     <div
       id="joystickContainer"
       style="height: 100%;touch-action: none;position: absolute;width: 50%;"
     ></div>
-  </head>
-  <body>
+    <form>
+      <input
+        required
+        type="text"
+        id="username"
+        name="username"
+        pattern=".{5,13}"
+        maxlength="13"
+        style="display: none; position: absolute;left: 50%;top: 50%;width: 300px;-webkit-transform: translateX(-50%);transform: translateX(-50%);"
+      />
+    </form>
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
 

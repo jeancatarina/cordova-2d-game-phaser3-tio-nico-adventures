@@ -1,4 +1,5 @@
 import Player from "../Class/Player";
+import * as storage from "../utils/storage";
 
 export class Menu extends Phaser.Scene {
   constructor() {
@@ -42,17 +43,9 @@ export class Menu extends Phaser.Scene {
     );
   }
 
-  getRecordScore() {
-    return window.localStorage.getItem("recordScore");
-  }
-
-  getLastScore() {
-    return window.localStorage.getItem("lastScore");
-  }
-
   createRecordScore() {
-    if (this.getRecordScore()) {
-      this.add.text(440, 210, this.getRecordScore(), {
+    if (storage.getRecordScore()) {
+      this.add.text(440, 210, storage.getRecordScore(), {
         fontSize: "32px",
         fill: "#000"
       });
@@ -60,8 +53,8 @@ export class Menu extends Phaser.Scene {
   }
 
   createLastScore() {
-    if (this.getLastScore()) {
-      this.add.text(250, 210, this.getLastScore(), {
+    if (storage.getLastScore()) {
+      this.add.text(250, 210, storage.getLastScore(), {
         fontSize: "32px",
         fill: "#000"
       });
@@ -119,13 +112,9 @@ export class Menu extends Phaser.Scene {
 
     this.createSoundButton();
 
-    // var startKey = this.input.keyboard.addKey("ENTER");
-    // startKey.onDown.add(this.startGame, this);
     this.state = 1;
 
-    this.sound.mute = this.getIsMuted();
-
-    // this.time.addEvent({ delay: 700, callback: this.blinkText, callbackScope: this, loop: true });
+    this.sound.mute = storage.getIsMuted();
   }
 
   startGame() {
@@ -146,7 +135,7 @@ export class Menu extends Phaser.Scene {
     this.soundButton = this.add.image(
       700,
       350,
-      this.getIsMuted() ? "soundOffImage" : "soundOnImage"
+      storage.getIsMuted() ? "soundOffImage" : "soundOnImage"
     );
 
     this.soundButton.setScale(0.5);
@@ -162,19 +151,12 @@ export class Menu extends Phaser.Scene {
   }
 
   setSoundState() {
-    this.setIsMuted(!this.getIsMuted());
+    this.setIsMuted(!storage.getIsMuted());
     this.createSoundButton();
-  }
-
-  getIsMuted() {
-    return (
-      window.localStorage.getItem("isMuted") === "true" ||
-      window.localStorage.getItem("isMuted") == undefined
-    );
   }
 
   setIsMuted(val) {
     this.sound.mute = val;
-    window.localStorage.setItem("isMuted", val);
+    storage.setIsMuted(val);
   }
 }
