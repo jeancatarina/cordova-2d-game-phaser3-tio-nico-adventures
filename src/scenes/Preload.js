@@ -2,9 +2,10 @@
 import titleImage from "../assets/sprites/title-screen.png";
 import creditsImage from "../assets/sprites/credits-text.png";
 import instructionsImage from "../assets/sprites/instructions.png";
-import jogarImage from "../assets/sprites/Jogar.png";
+import playImage from "../assets/sprites/play.png";
 import soundOffImage from "../assets/sprites/soundOff.png";
 import soundOnImage from "../assets/sprites/soundOn.png";
+import rankingImage from "../assets/images/ranking.png";
 
 // Play
 import heresyImage from "../assets/images/quemMaisLeao.png";
@@ -27,9 +28,18 @@ import bgSound from "../assets/sounds/mainMusic.mp3";
 import gameOverSound from "../assets/sounds/gameOver.mp3";
 import akuAkuMusicSound from "../assets/sounds/akuAkuMusic.mp3";
 
+import firebaseConfig from "../config/firebaseConfig.js";
+
 export class Preload extends Phaser.Scene {
   constructor() {
     super("Preload");
+    this.store = {};
+  }
+
+  init() {
+    this.store.rexFire = this.plugins
+      .get("rexFire")
+      .initializeApp(firebaseConfig);
   }
 
   preload() {
@@ -40,11 +50,12 @@ export class Preload extends Phaser.Scene {
   loadImages() {
     // Menu
     this.load.image("titleImage", titleImage);
-    this.load.image("jogarImage", jogarImage);
+    this.load.image("playImage", playImage);
     this.load.image("creditsImage", creditsImage);
     this.load.image("instructionsImage", instructionsImage);
     this.load.image("soundOffImage", soundOffImage);
     this.load.image("soundOnImage", soundOnImage);
+    this.load.image("rankingImage", rankingImage);
 
     // Play
     this.load.image("sky", skyImage);
@@ -79,6 +90,6 @@ export class Preload extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("Menu");
+    this.scene.start("Menu", { rexFire: this.store.rexFire });
   }
 }

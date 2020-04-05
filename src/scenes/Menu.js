@@ -5,6 +5,12 @@ export class Menu extends Phaser.Scene {
     super("Menu");
   }
 
+  init(data) {
+    this.store = {
+      rexFire: data.rexFire
+    };
+  }
+
   createBg() {
     let bg = this.add.image(0, 0, "sky");
 
@@ -25,6 +31,15 @@ export class Menu extends Phaser.Scene {
 
     player.setVelocityX(-200);
     player.anims.play("left", true);
+    this.time.delayedCall(
+      14800,
+      () => {
+        player.setVelocityX(0);
+        player.anims.play("turn");
+      },
+      [],
+      this
+    );
   }
 
   getRecordScore() {
@@ -37,7 +52,7 @@ export class Menu extends Phaser.Scene {
 
   createRecordScore() {
     if (this.getRecordScore()) {
-      this.add.text(300, 200, "Best: " + this.getRecordScore(), {
+      this.add.text(440, 210, this.getRecordScore(), {
         fontSize: "32px",
         fill: "#000"
       });
@@ -46,17 +61,53 @@ export class Menu extends Phaser.Scene {
 
   createLastScore() {
     if (this.getLastScore()) {
-      this.add.text(300, 250, "Last: " + this.getLastScore(), {
+      this.add.text(250, 210, this.getLastScore(), {
         fontSize: "32px",
         fill: "#000"
       });
     }
   }
 
+  createLeaderboard() {
+    let me = this,
+      rankY;
+
+    this.add.image(390, 350, "rankingImage");
+
+    this.store.leaderBoard = this.store.rexFire.add.leaderBoard({
+      root: "leaderboard-test",
+      // timeFilters: true,
+      pageItemCount: 7
+    });
+
+    rankY = 280;
+
+    this.store.leaderBoard
+      .loadFirstPage()
+      // leaderBoard.getRank(userID)
+      .then(function(rank) {
+        rank.forEach((player, index) => {
+          rankY = rankY + 30;
+          me.add.text(
+            215,
+            rankY,
+            `${index + 1}.${player.userName} ${player.score}`,
+            {
+              fontSize: "25px",
+              fill: "#000"
+            }
+          );
+        });
+      })
+      .catch(function(error) {});
+  }
+
   create() {
     this.createBg();
     // middleground = this.add.tileSprite(0, 0, gameWidth, gameHeight, "middleground");
     this.title = this.add.image(400, 100, "titleImage");
+
+    this.createLeaderboard();
 
     this.createRecordScore();
 
@@ -78,18 +129,7 @@ export class Menu extends Phaser.Scene {
   }
 
   startGame() {
-    if (this.state == 1) {
-      this.state = 2;
-      this.title2 = this.add.image(
-        this.width / 2,
-        this.height / 2,
-        "instructionsImage"
-      );
-      this.title2.anchor.setTo(0.5);
-      this.title.destroy();
-    } else {
-      this.scene.scene.start("Play");
-    }
+    this.scene.start("Play", { leaderBoard: this.store.leaderBoard });
   }
 
   blinkText() {
@@ -108,14 +148,17 @@ export class Menu extends Phaser.Scene {
       350,
       this.getIsMuted() ? "soundOffImage" : "soundOnImage"
     );
+
+    this.soundButton.setScale(0.5);
     this.soundButton.setInteractive();
     this.soundButton.on("pointerdown", this.setSoundState.bind(this));
   }
 
   createPlayButton() {
-    this.pressEnter = this.add.image(700, 500, "jogarImage");
+    this.pressEnter = this.add.image(700, 500, "playImage");
+    this.pressEnter.setScale(0.5);
     this.pressEnter.setInteractive();
-    this.pressEnter.on("pointerover", this.startGame);
+    this.pressEnter.on("pointerover", this.startGame.bind(this));
   }
 
   setSoundState() {

@@ -1,38 +1,36 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const UglifyEsPlugin = require("uglify-es-webpack-plugin");
 
-const host  = '0.0.0.0'
-const port  = 8080
+const host = "0.0.0.0";
+const port = 8080;
 
-const SRC = path.resolve(__dirname, 'src');
+const SRC = path.resolve(__dirname, "src");
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: "./src/index.js"
   },
   output: {
-		path: path.resolve(__dirname, 'www'),
-		filename: "main.js"
+    path: path.resolve(__dirname, "www"),
+    filename: "main.js"
   },
   devServer: {
     host,
     port,
     hot: true,
     disableHostCheck: true,
-    clientLogLevel: 'silent',
+    clientLogLevel: "silent",
     inline: true,
-    contentBase: path.resolve(__dirname, 'src'),
+    contentBase: path.resolve(__dirname, "src"),
     watchContentBase: true
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          output: {
-            comments: false
-          }
+      new UglifyEsPlugin({
+        compress: {
+          drop_console: true
         }
       })
     ]
@@ -41,14 +39,12 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
-        exclude: path.resolve(__dirname, 'node_modules'),
+        include: path.resolve(__dirname, "src"),
+        exclude: path.resolve(__dirname, "node_modules"),
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: [
-              '@babel/preset-env'
-            ]
+            presets: ["@babel/preset-env"]
           }
         }
       },
@@ -56,36 +52,36 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: 'html-loader',
-            options: {  minimize: true }
+            loader: "html-loader",
+            options: { minimize: true }
           }
         ]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
             esModule: false
           }
         }
-	  },
-	  {
+      },
+      {
         test: /\.mp3$/,
         include: SRC,
-        loader: 'file-loader'
+        loader: "file-loader"
       },
       {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: "style-loader"
           },
           {
-            loader: 'css-loader'
+            loader: "css-loader"
           },
           {
-            loader: 'sass-loader'
+            loader: "sass-loader"
           }
         ]
       }
@@ -93,11 +89,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: "./src/index.html"
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ]
-}
+};

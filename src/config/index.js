@@ -1,4 +1,5 @@
 import scenes from "./scenes";
+import FirebasePlugin from "phaser3-rex-plugins/plugins/firebase-plugin.js";
 
 export default {
   type: Phaser.AUTO,
@@ -17,5 +18,14 @@ export default {
     }
   },
   scene: scenes,
-  activePointers: 4
+  activePointers: 4,
+  plugins: {
+    global: [
+      {
+        key: "rexFire",
+        plugin: FirebasePlugin,
+        start: true
+      }
+    ]
+  }
 };

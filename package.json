@@ -7,6 +7,7 @@
   "scripts": {
     "get-ip": "echo $(echo 'http://')$(ipconfig getifaddr en0)",
     "build": "webpack --mode=production",
+    "builddev": "webpack --mode=development",
     "serve": "webpack-dev-server",
     "ios": "rm -rf .git/index.lock && cordova run ios",
     "android": "cordova run android",
@@ -32,7 +33,7 @@
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.1.2",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "uglify-es-webpack-plugin": "^0.10.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
@@ -45,8 +46,10 @@
     "cordova-libgoogleadmobads": "git+https://github.com/appfeel/google-iosadmobads.git",
     "cordova-play-services-version-adapter": "^1.0.2",
     "es6-promise-plugin": "^4.2.2",
+    "firebase": "^7.13.2",
     "nipplejs": "^0.8.5",
-    "phaser": "^3.21.0"
+    "phaser": "^3.21.0",
+    "phaser3-rex-plugins": "^1.1.11"
   },
   "cordova": {
     "plugins": {

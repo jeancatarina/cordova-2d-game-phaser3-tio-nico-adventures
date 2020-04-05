@@ -20,15 +20,78 @@ export class Play extends Phaser.Scene {
     super("Play");
   }
 
-  resetStates() {
+  init(data) {
     this.input.addPointer(4);
 
     gameOver = false;
     score = 0;
     this.store = {
       level: 0,
-      lastJumpTime: 0
+      lastJumpTime: 0,
+      leaderBoard: data.leaderBoard
     };
+  }
+
+  create() {
+    this.createJoystick();
+
+    this.bindJoystick();
+
+    //  A simple background for our game
+    this.createBg();
+
+    this.addSounds();
+
+    this.startMusicHappy();
+
+    this.createPlatforms();
+
+    this.createJesus();
+
+    // this.createPlayer();
+    player = this.add.existing(new Player(this));
+
+    this.createButtons();
+
+    //  Input Events
+    cursors = this.input.keyboard.createCursorKeys();
+
+    this.createPapers();
+
+    this.createPotion();
+
+    this.createHeresy();
+
+    this.createScore();
+
+    this.createCollide();
+  }
+
+  update() {
+    if (gameOver) {
+      return;
+    }
+
+    if (cursors.left.isDown) {
+      this.goLeft();
+    } else if (cursors.right.isDown) {
+      this.goRight();
+    }
+
+    if (cursors.up.isDown) {
+      this.store.lastJumpTime = new Date();
+    }
+
+    if (player.body.touching.down) {
+      if (
+        this.store.lastJumpTime !== 0 &&
+        getDifferenceBetweenDatesSeconds(this.store.lastJumpTime, new Date()) <
+          0.5
+      ) {
+        this.store.lastJumpTime = 0;
+        this.doJump();
+      }
+    }
   }
 
   createBg() {
@@ -218,70 +281,6 @@ export class Play extends Phaser.Scene {
     );
   }
 
-  create() {
-    this.resetStates();
-
-    this.createJoystick();
-
-    this.bindJoystick();
-
-    //  A simple background for our game
-    this.createBg();
-
-    this.addSounds();
-
-    this.startMusicHappy();
-
-    this.createPlatforms();
-
-    this.createJesus();
-
-    // this.createPlayer();
-    player = this.add.existing(new Player(this));
-
-    this.createButtons();
-
-    //  Input Events
-    cursors = this.input.keyboard.createCursorKeys();
-
-    this.createPapers();
-
-    this.createPotion();
-
-    this.createHeresy();
-
-    this.createScore();
-
-    this.createCollide();
-  }
-
-  update() {
-    if (gameOver) {
-      return;
-    }
-
-    if (cursors.left.isDown) {
-      this.goLeft();
-    } else if (cursors.right.isDown) {
-      this.goRight();
-    }
-
-    if (cursors.up.isDown) {
-      this.store.lastJumpTime = new Date();
-    }
-
-    if (player.body.touching.down) {
-      if (
-        this.store.lastJumpTime !== 0 &&
-        getDifferenceBetweenDatesSeconds(this.store.lastJumpTime, new Date()) <
-          0.5
-      ) {
-        this.store.lastJumpTime = 0;
-        this.doJump();
-      }
-    }
-  }
-
   goLeft() {
     player.setVelocityX(this.store.aku ? -500 : -200);
 
@@ -408,6 +407,12 @@ export class Play extends Phaser.Scene {
   }
 
   setRecordScore(val) {
+    this.store.leaderBoard.setUser(5, "deive leonardo");
+    this.store.leaderBoard
+      .post(val)
+      .then(function(record) {})
+      .catch(function(error) {});
+
     window.localStorage.setItem("recordScore", val);
   }
 
