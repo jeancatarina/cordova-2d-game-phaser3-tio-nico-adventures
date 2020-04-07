@@ -29,7 +29,11 @@ export class Play extends Phaser.Scene {
     this.store = {
       level: 0,
       lastJumpTime: 0,
-      leaderBoard: data.leaderBoard
+      leaderBoard: data.leaderBoard,
+      potionDropLevel: 3,
+      lifeActive: 0,
+      imortal: false,
+      aku: false
     };
   }
 
@@ -61,9 +65,13 @@ export class Play extends Phaser.Scene {
 
     this.createPotion();
 
+    this.createLife();
+
     this.createHeresy();
 
     this.createScore();
+
+    this.createHelmetCounter();
 
     this.createCollide();
   }
@@ -150,6 +158,7 @@ export class Play extends Phaser.Scene {
     this.paperSound = this.sound.add("paperSound", { volume: 0.8 });
     this.gameOverSound = this.sound.add("gameOverSound");
     this.akuAkuMusicSound = this.sound.add("akuAkuMusicSound", { volume: 1 });
+    this.warScreamSound = this.sound.add("warScreamSound", { volume: 1 });
   }
 
   createPlatforms() {
@@ -233,6 +242,10 @@ export class Play extends Phaser.Scene {
       .playAnimation("changePotion", 0);
   }
 
+  createLife() {
+    this.store.life = this.physics.add.group();
+  }
+
   createHeresy() {
     heresys = this.physics.add.group();
   }
@@ -257,6 +270,14 @@ export class Play extends Phaser.Scene {
     }
   }
 
+  createHelmetCounter() {
+    //  The score
+    this.store.helmetCounterText = this.add.text(550, 16, "Capacete: 0", {
+      fontSize: "32px",
+      fill: "#000"
+    });
+  }
+
   createCollide() {
     //  Collide the player and the papers with the platforms
     this.physics.add.collider(player, platforms);
@@ -267,6 +288,9 @@ export class Play extends Phaser.Scene {
     this.physics.add.collider(this.store.potion, platforms);
     this.physics.add.collider(this.store.potion, papers);
     this.physics.add.collider(this.store.potion, jesus);
+    this.physics.add.collider(this.store.life, platforms);
+    this.physics.add.collider(this.store.life, papers);
+    this.physics.add.collider(this.store.life, jesus);
 
     //  Checks to see if the player overlaps with any of the papers, if he does call the collectPaper function
     this.physics.add.overlap(player, papers, this.collectPaper, null, this);
@@ -277,6 +301,14 @@ export class Play extends Phaser.Scene {
       player,
       this.store.potion,
       this.collectPotion,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      player,
+      this.store.life,
+      this.collectLife,
       null,
       this
     );
@@ -307,7 +339,7 @@ export class Play extends Phaser.Scene {
   collectPaper(player, paper) {
     let heresyArray = ["heresy", "center", "law", "perfect"],
       randomNumber = Math.floor(Math.random() * heresyArray.length),
-      randomPotionChance = Math.random() * 100;
+      randomLifeChance = Math.random() * 100;
 
     this.paperSound.play();
 
@@ -335,7 +367,14 @@ export class Play extends Phaser.Scene {
       heresy.setVelocity(Phaser.Math.Between(-200, 200), 20);
       heresy.allowGravity = false;
 
-      if (this.store.level > 2 && randomPotionChance < 30) {
+      if (randomLifeChance < 15) {
+        this.store.lifeChild = this.store.life.create(400, 16, "helmImage");
+        this.store.lifeChild.setScale(1.5);
+      }
+
+      if (this.store.level === this.store.potionDropLevel) {
+        this.store.potionDropLevel =
+          this.store.level + this.store.potionDropLevel + 1;
         this.store.potionChild = this.store.potion.create(x, 16, "potionImage");
         this.store.potionChild.setScale(1.5);
       }
@@ -351,7 +390,6 @@ export class Play extends Phaser.Scene {
   }
 
   collectPotion(player, potion) {
-    console.log("pego");
     this.musicHappy.pause();
     this.akuAkuMusicSound.play();
     this.store.aku = true;
@@ -359,6 +397,17 @@ export class Play extends Phaser.Scene {
     player.setTint(Math.random() * 0xffffff);
 
     this.time.delayedCall(3000, this.akuEnd, [], this);
+  }
+
+  collectLife(player, life) {
+    if (!this.store.lifeActive) {
+      player.changeSkin(this, "dudeHelmetImage");
+    }
+
+    this.warScreamSound.play();
+    this.store.lifeActive++;
+    this.store.helmetCounterText.setText("Capacete: " + this.store.lifeActive);
+    life.disableBody(true, true);
   }
 
   doDeath() {
@@ -396,10 +445,31 @@ export class Play extends Phaser.Scene {
   }
 
   hitHeresy(player, heresy) {
-    if (!this.store.aku) {
-      this.doDeath(player);
-    } else {
+    if (this.store.aku) {
       heresy.disableBody(true, true);
+    } else if (this.store.imortal) {
+    } else if (this.store.lifeActive) {
+      this.store.lifeActive--;
+
+      this.store.imortal = true;
+
+      this.time.delayedCall(
+        2000,
+        () => {
+          this.store.imortal = false;
+        },
+        [],
+        this
+      );
+
+      this.store.helmetCounterText.setText(
+        "Capacete: " + this.store.lifeActive
+      );
+      if (this.store.lifeActive === 0) {
+        player.changeSkin(this, "dude");
+      }
+    } else {
+      this.doDeath(player);
     }
   }
 

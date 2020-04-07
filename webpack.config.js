@@ -67,7 +67,7 @@ module.exports = {
         }
       },
       {
-        test: /\.mp3$/,
+        test: /\.(mp3|wav)$/,
         include: SRC,
         loader: "file-loader"
       },

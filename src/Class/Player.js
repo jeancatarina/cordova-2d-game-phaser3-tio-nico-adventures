@@ -40,4 +40,41 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       repeat: -1
     });
   }
+
+  changeSkin(scene, playerImage) {
+    let left, turn, right;
+
+    left = scene.anims.get("left");
+    turn = scene.anims.get("turn");
+    right = scene.anims.get("right");
+
+    left.addFrame(
+      scene.anims.generateFrameNumbers(playerImage, {
+        start: 0,
+        end: 5
+      })
+    );
+    left.removeFrameAt(0);
+    left.removeFrameAt(0);
+    left.removeFrameAt(0);
+    left.removeFrameAt(0);
+    left.removeFrameAt(0);
+    left.removeFrameAt(0);
+
+    turn.addFrame([{ key: playerImage, frame: 6 }]);
+    turn.removeFrameAt(0);
+
+    right.addFrame(
+      scene.anims.generateFrameNumbers(playerImage, {
+        start: 7,
+        end: 12
+      })
+    );
+    right.removeFrameAt(0);
+    right.removeFrameAt(0);
+    right.removeFrameAt(0);
+    right.removeFrameAt(0);
+    right.removeFrameAt(0);
+    right.removeFrameAt(0);
+  }
 }

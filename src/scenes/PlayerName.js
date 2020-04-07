@@ -59,7 +59,7 @@ export class PlayerName extends Phaser.Scene {
   }
 
   createOkButton() {
-    this.okButton = this.add.image(700, 500, "yesImage");
+    this.okButton = this.add.image(400, 500, "yesImage");
 
     this.okButton.setScale(0.4);
     this.okButton.setInteractive();

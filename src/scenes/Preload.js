@@ -16,6 +16,7 @@ import centerImage from "../assets/images/centro.png";
 import lawImage from "../assets/images/lei.png";
 import perfectImage from "../assets/images/perfeitos.png";
 import dudeImage from "../assets/sprites/nicoBigSprite.png";
+import dudeHelmetImage from "../assets/sprites/nicoBigSpriteHelmet.png";
 import platformImage from "../assets/images/ground.png";
 import ground2Image from "../assets/images/ground2.png";
 import skyImage from "../assets/images/bg2.png";
@@ -24,12 +25,14 @@ import jesusImage from "../assets/images/jesus.png";
 import buttonHorizontalImage from "../assets/images/button-horizontal.png";
 import potionImage from "../assets/sprites/potion.png";
 import xBtnImage from "../assets/images/xBtn.png";
+import helmImage from "../assets/sprites/Helm.png";
 
 // sounds
 import paperSound from "../assets/sounds/paper.mp3";
 import bgSound from "../assets/sounds/mainMusic.mp3";
 import gameOverSound from "../assets/sounds/gameOver.mp3";
 import akuAkuMusicSound from "../assets/sounds/akuAkuMusic.mp3";
+import warScreamSound from "../assets/sounds/warScream.wav";
 
 import firebaseConfig from "../config/firebaseConfig.js";
 
@@ -80,7 +83,12 @@ export class Preload extends Phaser.Scene {
     this.load.image("law", lawImage);
     this.load.image("perfect", perfectImage);
     this.load.image("buttonHorizontal", xBtnImage);
+    this.load.image("helmImage", helmImage);
     this.load.spritesheet("dude", dudeImage, {
+      frameWidth: 50,
+      frameHeight: 70
+    });
+    this.load.spritesheet("dudeHelmetImage", dudeHelmetImage, {
       frameWidth: 50,
       frameHeight: 70
     });
@@ -99,6 +107,7 @@ export class Preload extends Phaser.Scene {
     this.load.audio("paperSound", paperSound);
     this.load.audio("gameOverSound", gameOverSound);
     this.load.audio("akuAkuMusicSound", akuAkuMusicSound);
+    this.load.audio("warScreamSound", warScreamSound);
   }
 
   addProgressBar() {
