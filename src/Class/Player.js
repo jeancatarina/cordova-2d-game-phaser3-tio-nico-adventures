@@ -27,14 +27,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
     scene.anims.create({
       key: "turn",
-      frames: [{ key: "dude", frame: 6 }],
-      frameRate: 20,
+      frames: scene.anims.generateFrameNumbers(playerImage, {
+        start: 6,
+        end: 9,
+      }),
+	  frameRate: 10,
+	  repeat: -1,
     });
     scene.anims.create({
       key: "right",
       frames: scene.anims.generateFrameNumbers(playerImage, {
-        start: 7,
-        end: 12,
+        start: 10,
+        end: 15,
       }),
       frameRate: 10,
       repeat: -1,
@@ -48,34 +52,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     turn = scene.anims.get("turn");
     right = scene.anims.get("right");
 
+	left.frames = [];
     left.addFrame(
       scene.anims.generateFrameNumbers(playerImage, {
         start: 0,
         end: 5,
       })
     );
-    left.removeFrameAt(0);
-    left.removeFrameAt(0);
-    left.removeFrameAt(0);
-    left.removeFrameAt(0);
-    left.removeFrameAt(0);
-    left.removeFrameAt(0);
 
-    turn.addFrame([{ key: playerImage, frame: 6 }]);
-    turn.removeFrameAt(0);
+	turn.frames = [];
+    turn.addFrame(scene.anims.generateFrameNumbers(playerImage, {
+        start: 6,
+        end: 9,
+    }));
 
+	right.frames = [];
     right.addFrame(
       scene.anims.generateFrameNumbers(playerImage, {
-        start: 7,
-        end: 12,
+        start: 10,
+        end: 15,
       })
     );
-    right.removeFrameAt(0);
-    right.removeFrameAt(0);
-    right.removeFrameAt(0);
-    right.removeFrameAt(0);
-    right.removeFrameAt(0);
-    right.removeFrameAt(0);
   }
 
   setCustomGravity(gravity = 500) {
