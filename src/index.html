@@ -10,19 +10,25 @@
   <body>
     <div
       id="joystickContainer"
-      style="height: 100%;touch-action: none;position: absolute;width: 50%;"
+      style="height: 100%; touch-action: none; position: absolute; width: 50%;"
     ></div>
-    <form>
-      <input
-        required
-        type="text"
-        id="username"
-        name="username"
-        pattern=".{5,13}"
-        maxlength="13"
-        style="display: none; position: absolute;left: 50%;top: 50%;width: 300px;-webkit-transform: translateX(-50%);transform: translateX(-50%);"
-      />
-    </form>
+    <input
+      required
+      type="text"
+      id="username"
+      name="username"
+      pattern=".{5,13}"
+      maxlength="13"
+      style="
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 300px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+      "
+    />
 
     <script>
       let WEBGL_RENDERER = true;

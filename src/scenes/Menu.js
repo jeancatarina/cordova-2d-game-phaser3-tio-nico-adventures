@@ -13,7 +13,7 @@ export class Menu extends Phaser.Scene {
 
   init(data) {
     this.store = {
-      rexFire: data.rexFire
+      rexFire: data.rexFire,
     };
   }
 
@@ -52,7 +52,7 @@ export class Menu extends Phaser.Scene {
     if (storage.getRecordScore()) {
       this.add.text(440, 210, storage.getRecordScore(), {
         fontSize: "32px",
-        fill: "#000"
+        fill: "#000",
       });
     }
   }
@@ -61,7 +61,7 @@ export class Menu extends Phaser.Scene {
     if (storage.getLastScore()) {
       this.add.text(250, 210, storage.getLastScore(), {
         fontSize: "32px",
-        fill: "#000"
+        fill: "#000",
       });
     }
   }
@@ -71,19 +71,21 @@ export class Menu extends Phaser.Scene {
 
     this.add.image(390, 350, "rankingImage");
 
-    this.store.leaderBoard = this.store.rexFire.add.leaderBoard({
-      root: "leaderboard-test",
-      // timeFilters: true,
-      pageItemCount: 100
-    });
+    if (!this.store.leaderBoard) {
+      this.store.leaderBoard = this.store.rexFire.add.leaderBoard({
+        root: "leaderboard-test",
+        // timeFilters: true,
+        pageItemCount: 100,
+      });
+    }
 
     this.store.leaderBoard
       .loadFirstPage()
       // leaderBoard.getRank(userID)
-      .then(function(rank) {
+      .then(function (rank) {
         me.createTable(rank);
       })
-      .catch(function(error) {});
+      .catch(function (error) {});
   }
 
   createTable(rank) {
@@ -99,12 +101,12 @@ export class Menu extends Phaser.Scene {
           child: this.createGrid(this, rank),
           mask: {
             mask: true,
-            padding: 1
-          }
+            padding: 1,
+          },
         },
         slider: {
           track: this.rexUI.add.roundRectangle(0, 0, 20, 10, 10, COLOR_LIGHT),
-          thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 13, COLOR_DARK)
+          thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 13, COLOR_DARK),
         },
         space: {
           left: 10,
@@ -113,8 +115,8 @@ export class Menu extends Phaser.Scene {
           bottom: 10,
           panel: 10,
           header: 10,
-          footer: 10
-        }
+          footer: 10,
+        },
       })
       .layout();
   }
@@ -123,7 +125,7 @@ export class Menu extends Phaser.Scene {
     var sizer = scene.rexUI.add.gridSizer({
       column: 2,
       row: rank.length,
-      columnProportions: 1
+      columnProportions: 1,
     });
 
     rank.forEach((player, index) => {
@@ -156,18 +158,18 @@ export class Menu extends Phaser.Scene {
           .setStrokeStyle(2, COLOR_DARK, 1),
         text: scene.add.text(0, 0, text, {
           fontSize: 18,
-          fill: "#000"
+          fill: "#000",
         }),
         space: {
           left: 10,
           right: 10,
           top: 10,
           bottom: 10,
-          icon: 10
-        }
+          icon: 10,
+        },
       })
       .setDepth(3);
-    var press = scene.rexUI.add.press(item).on("pressstart", function() {
+    var press = scene.rexUI.add.press(item).on("pressstart", function () {
       console.log(`press ${text}`);
     });
     return item;

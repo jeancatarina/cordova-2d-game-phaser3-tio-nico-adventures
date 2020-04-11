@@ -10,7 +10,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   create(scene, playerImage) {
-    this.setGravityY(500);
+    this.setCustomGravity();
     //  Player physics properties. Give the little guy a slight bounce.
     this.setBounce(0.2);
     this.setCollideWorldBounds(true);
@@ -20,24 +20,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       key: "left",
       frames: scene.anims.generateFrameNumbers(playerImage, {
         start: 0,
-        end: 5
+        end: 5,
       }),
       frameRate: 10,
-      repeat: -1
+      repeat: -1,
     });
     scene.anims.create({
       key: "turn",
       frames: [{ key: "dude", frame: 6 }],
-      frameRate: 20
+      frameRate: 20,
     });
     scene.anims.create({
       key: "right",
       frames: scene.anims.generateFrameNumbers(playerImage, {
         start: 7,
-        end: 12
+        end: 12,
       }),
       frameRate: 10,
-      repeat: -1
+      repeat: -1,
     });
   }
 
@@ -51,7 +51,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     left.addFrame(
       scene.anims.generateFrameNumbers(playerImage, {
         start: 0,
-        end: 5
+        end: 5,
       })
     );
     left.removeFrameAt(0);
@@ -67,7 +67,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     right.addFrame(
       scene.anims.generateFrameNumbers(playerImage, {
         start: 7,
-        end: 12
+        end: 12,
       })
     );
     right.removeFrameAt(0);
@@ -76,5 +76,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     right.removeFrameAt(0);
     right.removeFrameAt(0);
     right.removeFrameAt(0);
+  }
+
+  setCustomGravity(gravity = 500) {
+    this.setGravityY(gravity);
   }
 }

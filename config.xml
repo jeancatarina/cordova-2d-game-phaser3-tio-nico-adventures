@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.tionico" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
-	<preference name="Orientation" value="landscape" />	
+    <preference name="Orientation" value="landscape" />
     <name>Tio Nico Adventures</name>
     <description>
         Score adventure game
@@ -24,4 +24,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <engine name="android" spec="^8.1.0" />
+    <engine name="ios" spec="^5.1.1" />
 </widget>

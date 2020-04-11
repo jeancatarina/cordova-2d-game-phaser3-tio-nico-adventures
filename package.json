@@ -9,11 +9,13 @@
     "build": "webpack --mode=production",
     "builddev": "webpack --mode=development",
     "serve": "webpack-dev-server",
-    "ios": "rm -rf .git/index.lock && cordova run ios",
-    "android": "cordova run android",
+    "ios": "yarn build && rm -rf .git/index.lock && cordova run ios",
+    "android": "yarn build && cordova run android",
     "clear": ". scripts/Clear.sh",
     "adb": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s ce10171a18693b2a05 reverse tcp:8081 tcp:8081 && ./adb devices",
-    "adb-simulator": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s 192.168.56.103:5555 reverse tcp:8081 tcp:8081 && ./adb devices"
+    "adb-simulator": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s 192.168.56.103:5555 reverse tcp:8081 tcp:8081 && ./adb devices",
+    "icon": "cordova-icon",
+    "logcat-device": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s ce10171a18693b2a05 logcat"
   },
   "keywords": [
     "ecosystem:cordova"
@@ -41,7 +43,6 @@
   "dependencies": {
     "cordova-admob": "^5.1.0",
     "cordova-android": "^8.1.0",
-    "cordova-connectivity-monitor": "^1.2.2",
     "cordova-ios": "^5.1.1",
     "cordova-libgoogleadmobads": "git+https://github.com/appfeel/google-iosadmobads.git",
     "cordova-play-services-version-adapter": "^1.0.2",
