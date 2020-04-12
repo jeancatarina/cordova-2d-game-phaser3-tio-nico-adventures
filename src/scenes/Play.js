@@ -52,7 +52,7 @@ export class Play extends Phaser.Scene {
 
     this.createJesus();
 
-    this.store.player = this.add.existing(new Player(this));
+    this.createPlayer();
 
     this.createButtons();
 
@@ -99,6 +99,17 @@ export class Play extends Phaser.Scene {
         this.doJump();
       }
     }
+  }
+
+  createPlayer() {
+	this.store.player = this.add.existing(
+		new Player(
+			this,
+			100,
+			450,
+			storage.getSelectedSkin()
+		)
+	);
   }
 
   createBg() {
@@ -526,7 +537,7 @@ export class Play extends Phaser.Scene {
 
   collectLife(player, life) {
     if (!this.store.lifeActive) {
-      player.changeSkin(this, "dudeHelmetImage");
+      player.changeSkin(this, "helmetSkin");
     }
 
     this.warScreamSound.play();
@@ -589,7 +600,7 @@ export class Play extends Phaser.Scene {
 
       this.store.helmetCounterText.setText(this.store.lifeActive);
       if (this.store.lifeActive === 0) {
-        player.changeSkin(this, "dude");
+        player.changeSkin(this, storage.getSelectedSkin());
       }
     } else {
       this.doDeath(player);

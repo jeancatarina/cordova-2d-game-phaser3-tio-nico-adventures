@@ -186,9 +186,11 @@ export class Menu extends Phaser.Scene {
 
     this.createLastScore();
 
-    this.createPlayer();
+    // this.createPlayer();
 
-    this.createPlayButton();
+	this.createPlayButton();
+	
+    this.createChangeSkinBtn();
 
     this.createSoundButton();
 
@@ -228,6 +230,18 @@ export class Menu extends Phaser.Scene {
     this.pressEnter.setScale(0.5);
     this.pressEnter.setInteractive();
     this.pressEnter.on("pointerover", this.startGame.bind(this));
+  }
+  
+  createChangeSkinBtn() {
+    this.pressEnter = this.add.image(100, 500, "changeSkinBtn");
+    this.pressEnter.setScale(0.5);
+    this.pressEnter.setInteractive();
+	this.pressEnter.on("pointerover", this.goToChangeSkinScene.bind(this));
+	
+  }
+
+  goToChangeSkinScene() {
+	this.scene.start("ChangeSkin");
   }
 
   setSoundState() {

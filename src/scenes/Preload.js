@@ -9,23 +9,32 @@ import playImage from "../assets/sprites/play.png";
 import soundOffImage from "../assets/sprites/soundOff.png";
 import soundOnImage from "../assets/sprites/soundOn.png";
 import rankingImage from "../assets/images/ranking.png";
+import changeSkinBtn from "../assets/sprites/changeSkinBtn.png";
 
 // Play
 import heresyImage from "../assets/images/quemMaisLeao.png";
 import centerImage from "../assets/images/centro.png";
 import lawImage from "../assets/images/lei.png";
 import perfectImage from "../assets/images/perfeitos.png";
-import dudeImage from "../assets/sprites/nicoBigSprite.png";
-import dudeHelmetImage from "../assets/sprites/nicoBigSpriteHelmet.png";
 import platformImage from "../assets/images/ground.png";
 import ground2Image from "../assets/images/ground2.png";
 import skyImage from "../assets/images/bg2.png";
 import paperImage from "../assets/images/bible.png";
 import jesusImage from "../assets/images/jesus.png";
-import buttonHorizontalImage from "../assets/images/button-horizontal.png";
 import potionImage from "../assets/sprites/potion.png";
 import xBtnImage from "../assets/images/xBtn.png";
 import helmImage from "../assets/sprites/Helm.png";
+
+import bombadoSkinLeft from "../assets/sprites/skins/bombado/left.png";
+import bombadoSkinRight from "../assets/sprites/skins/bombado/right.png";
+
+import classicSkinLeft from "../assets/sprites/skins/classic/left.png";
+import classicSkinRight from "../assets/sprites/skins/classic/right.png";
+import classicSkinIdle from "../assets/sprites/skins/classic/idle.png";
+
+import helmetSkinLeft from "../assets/sprites/skins/helmet/left.png";
+import helmetSkinRight from "../assets/sprites/skins/helmet/right.png";
+import helmetSkinIdle from "../assets/sprites/skins/helmet/idle.png";
 
 // sounds
 import paperSound from "../assets/sounds/paper.mp3";
@@ -71,6 +80,7 @@ export class Preload extends Phaser.Scene {
     this.load.image("soundOffImage", soundOffImage);
     this.load.image("soundOnImage", soundOnImage);
     this.load.image("rankingImage", rankingImage);
+    this.load.image("changeSkinBtn", changeSkinBtn);
 
     // Play
     this.load.image("sky", skyImage);
@@ -82,23 +92,52 @@ export class Preload extends Phaser.Scene {
     this.load.image("center", centerImage);
     this.load.image("law", lawImage);
     this.load.image("perfect", perfectImage);
-    this.load.image("buttonHorizontal", xBtnImage);
-    this.load.image("helmImage", helmImage);
-    this.load.spritesheet("dude", dudeImage, {
+	this.load.image("buttonHorizontal", xBtnImage);
+	// itens
+	this.load.image("helmImage", helmImage);
+	this.load.spritesheet("potionImage", potionImage, {
+		frameWidth: 32,
+		frameHeight: 32
+	});
+
+	// skins
+    this.load.spritesheet("classicSkinIdle", classicSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74
+    });
+    this.load.spritesheet("classicSkinRight", classicSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74
+    });
+    this.load.spritesheet("classicSkinLeft", classicSkinLeft, {
+      frameWidth: 77,
+      frameHeight: 74
+	});
+	
+    this.load.spritesheet("bombadoSkinLeft", bombadoSkinLeft, {
+      frameWidth: 77,
+      frameHeight: 74
+    });
+    this.load.spritesheet("bombadoSkinRight", bombadoSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74
+    });
+    this.load.spritesheet("bombadoSkinIdle", bombadoSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74
+	});
+	
+    this.load.spritesheet("helmetSkinLeft", helmetSkinLeft, {
       frameWidth: 50,
       frameHeight: 70
     });
-    this.load.spritesheet("dudeHelmetImage", dudeHelmetImage, {
+    this.load.spritesheet("helmetSkinRight", helmetSkinRight, {
       frameWidth: 50,
       frameHeight: 70
     });
-    // this.load.spritesheet("buttonHorizontal", buttonHorizontalImage, {
-    //   frameWidth: 96,
-    //   frameHeight: 64
-    // });
-    this.load.spritesheet("potionImage", potionImage, {
-      frameWidth: 32,
-      frameHeight: 32
+    this.load.spritesheet("helmetSkinIdle", helmetSkinIdle, {
+      frameWidth: 50,
+      frameHeight: 70
     });
   }
 

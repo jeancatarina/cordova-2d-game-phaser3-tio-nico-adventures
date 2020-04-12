@@ -1,81 +1,90 @@
+const getSkinData = (skin) => {
+	let skinLeft, skinIdle, skinRight;
+
+	if (!skin || skin === "classicSkin") {
+		skinLeft = { image: "classic" + "SkinLeft", frameInit: 0, frameEnd: 15 };
+		skinIdle = { image: "classic" + "SkinIdle", frameInit: 0, frameEnd: 1 };
+		skinRight = { image: "classic" + "SkinRight", frameInit: 0, frameEnd: 15 };
+	}
+
+	if (skin === "bombadoSkin") {
+		skinLeft = { image: "bombado" + "SkinLeft", frameInit: 0, frameEnd: 15 };
+		skinIdle = { image: "bombado" + "SkinIdle", frameInit: 0, frameEnd: 1 };
+		skinRight = { image: "bombado" + "SkinRight", frameInit: 0, frameEnd: 15 };
+	}
+
+	if (skin === "helmetSkin") {
+		skinLeft = { image: "helmet" + "SkinLeft", frameInit: 0, frameEnd: 5 };
+		skinIdle = { image: "helmet" + "SkinIdle", frameInit: 6, frameEnd: 9 };
+		skinRight = { image: "helmet" + "SkinRight", frameInit: 10, frameEnd: 15 };
+	}
+
+	return {
+		skinLeft,
+		skinIdle,
+		skinRight
+	};
+};
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x = 100, y = 450, playerImage = "dude") {
-    super(scene, x, y, playerImage);
+	constructor(scene, x = 100, y = 450, skinName) {
+		super(scene, x, y, skinName + "Idle");
 
-    scene.physics.world.enableBody(this, 0);
+		scene.physics.world.enableBody(this, 0);
 
-    this.setTexture(playerImage);
-    this.setPosition(x, y);
-    this.create(scene, playerImage);
-  }
+		this.setTexture(skinName + "Idle");
+		this.setPosition(x, y);
+		this.create(scene, skinName);
+	}
 
-  create(scene, playerImage) {
-    this.setCustomGravity();
-    //  Player physics properties. Give the little guy a slight bounce.
-    this.setBounce(0.2);
-    this.setCollideWorldBounds(true);
+	create(scene, skinName) {
+		this.setCustomGravity();
+		//  Player physics properties. Give the little guy a slight bounce.
+		this.setBounce(0.2);
+		this.setCollideWorldBounds(true);
 
-    //  Our player animations, turning, walking left and walking right.
-    scene.anims.create({
-      key: "left",
-      frames: scene.anims.generateFrameNumbers(playerImage, {
-        start: 0,
-        end: 5,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    scene.anims.create({
-      key: "turn",
-      frames: scene.anims.generateFrameNumbers(playerImage, {
-        start: 6,
-        end: 9,
-      }),
-	  frameRate: 10,
-	  repeat: -1,
-    });
-    scene.anims.create({
-      key: "right",
-      frames: scene.anims.generateFrameNumbers(playerImage, {
-        start: 10,
-        end: 15,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
-  }
+		this.changeSkin(scene, skinName);
+	}
 
-  changeSkin(scene, playerImage) {
-    let left, turn, right;
+	changeSkin(scene, skinName) {
+		let left, turn, right, skinLeft, skinIdle, skinRight;
 
-    left = scene.anims.get("left");
-    turn = scene.anims.get("turn");
-    right = scene.anims.get("right");
+		({ skinLeft, skinIdle, skinRight } = getSkinData(skinName));
 
-	left.frames = [];
-    left.addFrame(
-      scene.anims.generateFrameNumbers(playerImage, {
-        start: 0,
-        end: 5,
-      })
-    );
+		scene.anims.anims.delete("left");
+		scene.anims.anims.delete("turn");
+		scene.anims.anims.delete("right");
 
-	turn.frames = [];
-    turn.addFrame(scene.anims.generateFrameNumbers(playerImage, {
-        start: 6,
-        end: 9,
-    }));
+		scene.anims.create({
+			key: "left",
+			frames: scene.anims.generateFrameNumbers(skinLeft && skinLeft.image, {
+				start: skinLeft && skinLeft.frameInit,
+				end: skinLeft && skinLeft.frameEnd
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+		scene.anims.create({
+			key: "turn",
+			frames: scene.anims.generateFrameNumbers(skinIdle && skinIdle.image, {
+				start: skinIdle && skinIdle.frameInit,
+				end: skinIdle && skinIdle.frameEnd
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+		scene.anims.create({
+			key: "right",
+			frames: scene.anims.generateFrameNumbers(skinRight && skinRight.image, {
+				start: skinRight && skinRight.frameInit,
+				end: skinRight && skinRight.frameEnd
+			}),
+			frameRate: 10,
+			repeat: -1
+		});
+	}
 
-	right.frames = [];
-    right.addFrame(
-      scene.anims.generateFrameNumbers(playerImage, {
-        start: 10,
-        end: 15,
-      })
-    );
-  }
-
-  setCustomGravity(gravity = 500) {
-    this.setGravityY(gravity);
-  }
+	setCustomGravity(gravity = 500) {
+		this.setGravityY(gravity);
+	}
 }

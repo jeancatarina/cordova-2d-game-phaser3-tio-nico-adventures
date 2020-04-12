@@ -39,3 +39,11 @@ export const getUsername = () => {
 export const getUsernameId = () => {
   return window.localStorage.getItem("usernameId");
 };
+
+export const getSelectedSkin = () => {
+	return window.localStorage.getItem("selectedSkin");
+}
+
+export const setSelectedSkin = (skin) => {
+	window.localStorage.setItem("selectedSkin", skin);
+}
