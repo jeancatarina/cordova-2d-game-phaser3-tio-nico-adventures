@@ -1,6 +1,6 @@
 import { randomId } from "../utils/utils";
 
-export const setRecordStore = val => {
+export const setRecordStore = (val) => {
   window.localStorage.setItem("recordScore", val);
 };
 
@@ -8,7 +8,7 @@ export const getRecordScore = () => {
   return window.localStorage.getItem("recordScore");
 };
 
-export const setLastScore = val => {
+export const setLastScore = (val) => {
   window.localStorage.setItem("lastScore", val);
 };
 
@@ -16,7 +16,7 @@ export const getLastScore = () => {
   return window.localStorage.getItem("lastScore");
 };
 
-export const setIsMuted = val => {
+export const setIsMuted = (val) => {
   window.localStorage.setItem("isMuted", val);
 };
 
@@ -27,7 +27,7 @@ export const getIsMuted = () => {
   );
 };
 
-export const setUsername = value => {
+export const setUsername = (value) => {
   window.localStorage.setItem("usernameId", randomId());
   window.localStorage.setItem("username", value);
 };
@@ -41,9 +41,9 @@ export const getUsernameId = () => {
 };
 
 export const getSelectedSkin = () => {
-	return window.localStorage.getItem("selectedSkin");
-}
+  return window.localStorage.getItem("selectedSkin") || "classicSkin";
+};
 
 export const setSelectedSkin = (skin) => {
-	window.localStorage.setItem("selectedSkin", skin);
-}
+  window.localStorage.setItem("selectedSkin", skin);
+};

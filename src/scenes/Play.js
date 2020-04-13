@@ -102,14 +102,9 @@ export class Play extends Phaser.Scene {
   }
 
   createPlayer() {
-	this.store.player = this.add.existing(
-		new Player(
-			this,
-			100,
-			450,
-			storage.getSelectedSkin()
-		)
-	);
+    this.store.player = this.add.existing(
+      new Player(this, 100, 450, storage.getSelectedSkin())
+    );
   }
 
   createBg() {
@@ -452,7 +447,13 @@ export class Play extends Phaser.Scene {
   }
 
   collectPaper(player, paper) {
-    let heresyArray = ["heresy", "center", "law", "perfect"],
+    let heresyArray = [
+        "heresy",
+        "center",
+        "law",
+        "perfect",
+        "bibleHeresyImage",
+      ],
       randomNumber = Math.floor(Math.random() * heresyArray.length),
       randomLifeChance = Math.random() * 100;
 

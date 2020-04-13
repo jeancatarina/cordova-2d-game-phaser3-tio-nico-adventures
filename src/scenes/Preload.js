@@ -12,10 +12,6 @@ import rankingImage from "../assets/images/ranking.png";
 import changeSkinBtn from "../assets/sprites/changeSkinBtn.png";
 
 // Play
-import heresyImage from "../assets/images/quemMaisLeao.png";
-import centerImage from "../assets/images/centro.png";
-import lawImage from "../assets/images/lei.png";
-import perfectImage from "../assets/images/perfeitos.png";
 import platformImage from "../assets/images/ground.png";
 import ground2Image from "../assets/images/ground2.png";
 import skyImage from "../assets/images/bg2.png";
@@ -24,6 +20,12 @@ import jesusImage from "../assets/images/jesus.png";
 import potionImage from "../assets/sprites/potion.png";
 import xBtnImage from "../assets/images/xBtn.png";
 import helmImage from "../assets/sprites/Helm.png";
+// heresias
+import perfectImage from "../assets/images/perfeitos.png";
+import heresyImage from "../assets/images/quemMaisLeao.png";
+import centerImage from "../assets/images/centro.png";
+import lawImage from "../assets/images/lei.png";
+import bibleHeresyImage from "../assets/images/bibliaNaoSagrada.png";
 
 import bombadoSkinLeft from "../assets/sprites/skins/bombado/left.png";
 import bombadoSkinRight from "../assets/sprites/skins/bombado/right.png";
@@ -92,52 +94,53 @@ export class Preload extends Phaser.Scene {
     this.load.image("center", centerImage);
     this.load.image("law", lawImage);
     this.load.image("perfect", perfectImage);
-	this.load.image("buttonHorizontal", xBtnImage);
-	// itens
-	this.load.image("helmImage", helmImage);
-	this.load.spritesheet("potionImage", potionImage, {
-		frameWidth: 32,
-		frameHeight: 32
-	});
+    this.load.image("bibleHeresyImage", bibleHeresyImage);
+    this.load.image("buttonHorizontal", xBtnImage);
+    // itens
+    this.load.image("helmImage", helmImage);
+    this.load.spritesheet("potionImage", potionImage, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
 
-	// skins
+    // skins
     this.load.spritesheet("classicSkinIdle", classicSkinRight, {
       frameWidth: 77,
-      frameHeight: 74
+      frameHeight: 74,
     });
     this.load.spritesheet("classicSkinRight", classicSkinRight, {
       frameWidth: 77,
-      frameHeight: 74
+      frameHeight: 74,
     });
     this.load.spritesheet("classicSkinLeft", classicSkinLeft, {
       frameWidth: 77,
-      frameHeight: 74
-	});
-	
+      frameHeight: 74,
+    });
+
     this.load.spritesheet("bombadoSkinLeft", bombadoSkinLeft, {
       frameWidth: 77,
-      frameHeight: 74
+      frameHeight: 74,
     });
     this.load.spritesheet("bombadoSkinRight", bombadoSkinRight, {
       frameWidth: 77,
-      frameHeight: 74
+      frameHeight: 74,
     });
     this.load.spritesheet("bombadoSkinIdle", bombadoSkinRight, {
       frameWidth: 77,
-      frameHeight: 74
-	});
-	
+      frameHeight: 74,
+    });
+
     this.load.spritesheet("helmetSkinLeft", helmetSkinLeft, {
       frameWidth: 50,
-      frameHeight: 70
+      frameHeight: 70,
     });
     this.load.spritesheet("helmetSkinRight", helmetSkinRight, {
       frameWidth: 50,
-      frameHeight: 70
+      frameHeight: 70,
     });
     this.load.spritesheet("helmetSkinIdle", helmetSkinIdle, {
       frameWidth: 50,
-      frameHeight: 70
+      frameHeight: 70,
     });
   }
 
@@ -164,8 +167,8 @@ export class Preload extends Phaser.Scene {
       text: "Loading...",
       style: {
         font: "20px monospace",
-        fill: "#ffffff"
-      }
+        fill: "#ffffff",
+      },
     });
     loadingText.setOrigin(0.5, 0.5);
 
@@ -175,8 +178,8 @@ export class Preload extends Phaser.Scene {
       text: "0%",
       style: {
         font: "18px monospace",
-        fill: "#ffffff"
-      }
+        fill: "#ffffff",
+      },
     });
     percentText.setOrigin(0.5, 0.5);
 
@@ -186,13 +189,13 @@ export class Preload extends Phaser.Scene {
       text: "",
       style: {
         font: "18px monospace",
-        fill: "#ffffff"
-      }
+        fill: "#ffffff",
+      },
     });
 
     assetText.setOrigin(0.5, 0.5);
 
-    this.load.on("progress", value => {
+    this.load.on("progress", (value) => {
       percentText.setText(parseInt(value * 100 + "", 10) + "%");
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
@@ -204,7 +207,7 @@ export class Preload extends Phaser.Scene {
       );
     });
 
-    this.load.on("fileprogress", file => {
+    this.load.on("fileprogress", (file) => {
       assetText.setText("Loading asset: " + file.key);
     });
 

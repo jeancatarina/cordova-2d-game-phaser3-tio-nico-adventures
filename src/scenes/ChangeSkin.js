@@ -7,37 +7,75 @@ export class ChangeSkin extends Phaser.Scene {
   }
 
   init(data) {
-    this.store = {
-    };
+    this.store = {};
   }
 
   preload() {}
 
   create() {
-	this.createBg();
-	this.createOkButton();
-	this.createSkins();
+    this.createBg();
+    this.createOkButton();
+    this.createSkins();
   }
 
   createSkins() {
-	const selectedSkin = storage.getSelectedSkin();
+    const selectedSkin = storage.getSelectedSkin();
 
-	this.store.classicSkinSelected = this.add.sprite(300, 100, "classicSkinRight", 0).setScale(2.2).setTintFill(selectedSkin === "classicSkin" || !selectedSkin ? 0x00FF00 : 0xffffff);
-	this.store.classicSkin = this.add.sprite(300, 100, "classicSkinRight", 0).setScale(2);
+    this.add.text(240, 180, "Tio Nico Raiz", {
+      fontSize: "12px",
+      fill: "#000",
+    });
 
-	this.store.bombadoSkinSelected = this.add.sprite(300, 300, "bombadoSkinRight", 0).setScale(2.2).setTintFill(selectedSkin === "bombadoSkin" ? 0x00FF00 : 0xffffff);
-	this.store.bombadoSkin = this.add.sprite(300, 300, "bombadoSkinRight", 0).setScale(2);
+    this.store.classicSkinSelected = this.add
+      .sprite(300, 100, "classicSkinRight", 0)
+      .setScale(2.2)
+      .setTintFill(
+        selectedSkin === "classicSkin" || !selectedSkin ? 0x00ff00 : 0xffffff
+      );
+    this.store.classicSkin = this.add
+      .sprite(300, 100, "classicSkinRight", 0)
+      .setScale(2);
 
-	this.store.classicSkin.setInteractive();
-	this.store.classicSkin.on("pointerdown", this.setSelectedSkin.bind(this, "classicSkin"));
-	
-	this.store.bombadoSkin.setInteractive();
-    this.store.bombadoSkin.on("pointerdown", this.setSelectedSkin.bind(this, "bombadoSkin"));
+    this.add.text(230, 380, "Tio Nico Bombado", {
+      fontSize: "12px",
+      fill: "#fff",
+    });
+    this.add.text(230, 390, "Custo: 1000 de score", {
+      fontSize: "12px",
+      fill: "#fff",
+    });
+    this.store.bombadoSkinSelected = this.add
+      .sprite(300, 300, "bombadoSkinRight", 0)
+      .setScale(2.2)
+      .setTintFill(selectedSkin === "bombadoSkin" ? 0x00ff00 : 0xffffff);
+    this.store.bombadoSkin = this.add
+      .sprite(300, 300, "bombadoSkinRight", 0)
+      .setScale(2);
+
+    this.store.classicSkin.setInteractive();
+    this.store.classicSkin.on(
+      "pointerdown",
+      this.setSelectedSkin.bind(this, "classicSkin")
+    );
+
+    this.store.bombadoSkin.setInteractive();
+    this.store.bombadoSkin.on(
+      "pointerdown",
+      this.setSelectedSkin.bind(this, "bombadoSkin")
+    );
   }
 
   setSelectedSkin(skin) {
-	storage.setSelectedSkin(skin);
-	this.createSkins();
+    const record = storage.getRecordScore();
+
+    if (skin === "bombadoSkin" && record > 999) {
+      storage.setSelectedSkin(skin);
+    }
+
+    if (skin === "classicSkin") {
+      storage.setSelectedSkin(skin);
+    }
+    this.createSkins();
   }
 
   createBg() {
@@ -61,6 +99,6 @@ export class ChangeSkin extends Phaser.Scene {
   }
 
   goToMenuScene() {
-	this.scene.start("Menu");
+    this.scene.start("Menu");
   }
 }
