@@ -28,7 +28,9 @@ export const getIsMuted = () => {
 };
 
 export const setUsername = (value) => {
-  window.localStorage.setItem("usernameId", randomId());
+  if (!getUsernameId()) {
+    window.localStorage.setItem("usernameId", randomId());
+  }
   window.localStorage.setItem("username", value);
 };
 

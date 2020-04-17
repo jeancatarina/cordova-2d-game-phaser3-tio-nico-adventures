@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tionico" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.tionico" version="1.0.3" xmlns="http://www.w3.org/ns/widgets">
     <preference name="Orientation" value="landscape" />
     <name>Tio Nico Adventures</name>
     <description>

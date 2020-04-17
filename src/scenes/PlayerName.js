@@ -8,7 +8,7 @@ export class PlayerName extends Phaser.Scene {
 
   init(data) {
     this.store = {
-      rexFire: data.rexFire
+      rexFire: data.rexFire,
     };
   }
 
@@ -37,7 +37,8 @@ export class PlayerName extends Phaser.Scene {
       width,
       height,
       nameText,
-      username = document.getElementById("username");
+      username = document.getElementById("username"),
+      usernameForm = document.getElementById("usernameForm");
 
     width = this.cameras.main.width;
     height = this.cameras.main.height;
@@ -45,17 +46,18 @@ export class PlayerName extends Phaser.Scene {
     nameText = this.make.text({
       x: width / 2,
       y: height / 2 - 20,
-      text: "Name:",
+      text: "Nome de 5 a 13 caracteres:",
       style: {
         font: "20px monospace",
-        fill: "#fffff"
-      }
+        fill: "#fffff",
+      },
     });
     nameText.setOrigin(0.5, 0.5);
 
     this.createOkButton();
     username.style.display = "block";
     username.value = storage.getUsername();
+    usernameForm.onsubmit = this.onSubmit.bind(this);
   }
 
   createOkButton() {
@@ -66,7 +68,8 @@ export class PlayerName extends Phaser.Scene {
     this.okButton.on("pointerdown", this.onSubmit.bind(this));
   }
 
-  onSubmit() {
+  onSubmit(e) {
+    e && e.preventDefault && e.preventDefault();
     if (storage.getUsername() !== username.value) {
       storage.setUsername(username.value);
     }

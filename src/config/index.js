@@ -8,15 +8,15 @@ export default {
   height: 600,
   scale: {
     mode: Phaser.Scale.EXACT_FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
+    autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   parent: "phaser-example",
   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 300 },
-      debug: false
-    }
+      debug: false,
+    },
   },
   scene: scenes,
   activePointers: 4,
@@ -25,15 +25,15 @@ export default {
       {
         key: "rexUI",
         plugin: UIPlugin,
-        mapping: "rexUI"
-      }
+        mapping: "rexUI",
+      },
     ],
     global: [
       {
         key: "rexFire",
         plugin: FirebasePlugin,
-        start: true
-      }
-    ]
-  }
+        start: true,
+      },
+    ],
+  },
 };

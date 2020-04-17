@@ -1,7 +1,7 @@
 {
   "name": "phaser-3-webpack-cordova",
   "displayName": "Phaser 3 WC",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A boilerplate template with Phaser, Webpack and Cordova",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,8 @@
     "adb": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s ce10171a18693b2a05 reverse tcp:8081 tcp:8081 && ./adb devices",
     "adb-simulator": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s 192.168.56.103:5555 reverse tcp:8081 tcp:8081 && ./adb devices",
     "icon": "cordova-icon",
-    "logcat-device": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s ce10171a18693b2a05 logcat"
+    "logcat-device": "cd /Users/jeancatarina/Library/Android/sdk/platform-tools/ && ./adb -s ce10171a18693b2a05 logcat",
+    "publish-android": "yarn build && cordova build --release android"
   },
   "keywords": [
     "ecosystem:cordova"
