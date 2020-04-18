@@ -17,6 +17,33 @@ export class Menu extends Phaser.Scene {
     };
   }
 
+  create() {
+    this.createBg();
+    this.title = this.add.image(400, 100, "titleImage");
+
+    this.createLeaderboard();
+
+    this.createRecordScore();
+
+    this.createLastScore();
+
+    // this.createPlayer();
+
+    this.createPlayButton();
+
+    this.createChangeSkinBtn();
+
+    this.createFollowMeBtn();
+
+    this.createSoundButton();
+
+    this.state = 1;
+
+    this.sound.mute = storage.getIsMuted();
+  }
+
+  update() {}
+
   createBg() {
     let bg = this.add.image(0, 0, "sky");
 
@@ -175,30 +202,6 @@ export class Menu extends Phaser.Scene {
     return item;
   }
 
-  create() {
-    this.createBg();
-    // middleground = this.add.tileSprite(0, 0, gameWidth, gameHeight, "middleground");
-    this.title = this.add.image(400, 100, "titleImage");
-
-    this.createLeaderboard();
-
-    this.createRecordScore();
-
-    this.createLastScore();
-
-    // this.createPlayer();
-
-	this.createPlayButton();
-	
-    this.createChangeSkinBtn();
-
-    this.createSoundButton();
-
-    this.state = 1;
-
-    this.sound.mute = storage.getIsMuted();
-  }
-
   startGame() {
     this.scene.start("Play", { leaderBoard: this.store.leaderBoard });
   }
@@ -211,8 +214,6 @@ export class Menu extends Phaser.Scene {
     }
   }
 
-  update() {}
-
   createSoundButton() {
     this.soundButton = this.add.image(
       700,
@@ -222,26 +223,34 @@ export class Menu extends Phaser.Scene {
 
     this.soundButton.setScale(0.5);
     this.soundButton.setInteractive();
-    this.soundButton.on("pointerdown", this.setSoundState.bind(this));
+    this.soundButton.on("pointerup", this.setSoundState.bind(this));
   }
 
   createPlayButton() {
     this.pressEnter = this.add.image(700, 500, "playImage");
     this.pressEnter.setScale(0.5);
     this.pressEnter.setInteractive();
-    this.pressEnter.on("pointerover", this.startGame.bind(this));
+    this.pressEnter.on("pointerup", this.startGame.bind(this));
   }
-  
+
   createChangeSkinBtn() {
     this.pressEnter = this.add.image(100, 500, "changeSkinBtn");
     this.pressEnter.setScale(0.5);
     this.pressEnter.setInteractive();
-	this.pressEnter.on("pointerover", this.goToChangeSkinScene.bind(this));
-	
+    this.pressEnter.on("pointerup", this.goToChangeSkinScene.bind(this));
+  }
+
+  createFollowMeBtn() {
+    this.pressEnter = this.add.image(100, 350, "followMeBtn");
+    this.pressEnter.setScale(0.5);
+    this.pressEnter.setInteractive();
+    this.pressEnter.on("pointerdown", () =>
+      window.open("https://www.instagram.com/jeancatarina", "_blank")
+    );
   }
 
   goToChangeSkinScene() {
-	this.scene.start("ChangeSkin");
+    this.scene.start("ChangeSkin");
   }
 
   setSoundState() {

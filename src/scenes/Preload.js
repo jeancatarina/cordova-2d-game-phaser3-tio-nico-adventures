@@ -10,6 +10,7 @@ import soundOffImage from "../assets/sprites/soundOff.png";
 import soundOnImage from "../assets/sprites/soundOn.png";
 import rankingImage from "../assets/images/ranking.png";
 import changeSkinBtn from "../assets/sprites/changeSkinBtn.png";
+import followMeBtn from "../assets/sprites/followMe.png";
 
 // Play
 import platformImage from "../assets/images/ground.png";
@@ -29,6 +30,9 @@ import bibleHeresyImage from "../assets/images/bibliaNaoSagrada.png";
 
 import bombadoSkinLeft from "../assets/sprites/skins/bombado/left.png";
 import bombadoSkinRight from "../assets/sprites/skins/bombado/right.png";
+
+import marujoSkinLeft from "../assets/sprites/skins/marujo/left.png";
+import marujoSkinRight from "../assets/sprites/skins/marujo/right.png";
 
 import classicSkinLeft from "../assets/sprites/skins/classic/left.png";
 import classicSkinRight from "../assets/sprites/skins/classic/right.png";
@@ -83,6 +87,7 @@ export class Preload extends Phaser.Scene {
     this.load.image("soundOnImage", soundOnImage);
     this.load.image("rankingImage", rankingImage);
     this.load.image("changeSkinBtn", changeSkinBtn);
+    this.load.image("followMeBtn", followMeBtn);
 
     // Play
     this.load.image("sky", skyImage);
@@ -126,6 +131,19 @@ export class Preload extends Phaser.Scene {
       frameHeight: 74,
     });
     this.load.spritesheet("bombadoSkinIdle", bombadoSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74,
+    });
+
+    this.load.spritesheet("marujoSkinLeft", marujoSkinLeft, {
+      frameWidth: 77,
+      frameHeight: 74,
+    });
+    this.load.spritesheet("marujoSkinRight", marujoSkinRight, {
+      frameWidth: 77,
+      frameHeight: 74,
+    });
+    this.load.spritesheet("marujoSkinIdle", marujoSkinRight, {
       frameWidth: 77,
       frameHeight: 74,
     });

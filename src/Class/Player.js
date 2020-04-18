@@ -13,6 +13,12 @@ const getSkinData = (skin) => {
     skinRight = { image: "bombado" + "SkinRight", frameInit: 0, frameEnd: 15 };
   }
 
+  if (skin === "marujoSkin") {
+    skinLeft = { image: "marujo" + "SkinLeft", frameInit: 0, frameEnd: 15 };
+    skinIdle = { image: "marujo" + "SkinIdle", frameInit: 0, frameEnd: 1 };
+    skinRight = { image: "marujo" + "SkinRight", frameInit: 0, frameEnd: 15 };
+  }
+
   if (skin === "helmetSkin") {
     skinLeft = { image: "helmet" + "SkinLeft", frameInit: 0, frameEnd: 5 };
     skinIdle = { image: "helmet" + "SkinIdle", frameInit: 6, frameEnd: 9 };

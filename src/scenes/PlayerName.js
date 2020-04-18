@@ -65,7 +65,7 @@ export class PlayerName extends Phaser.Scene {
 
     this.okButton.setScale(0.4);
     this.okButton.setInteractive();
-    this.okButton.on("pointerdown", this.onSubmit.bind(this));
+    this.okButton.on("pointerup", this.onSubmit.bind(this));
   }
 
   onSubmit(e) {

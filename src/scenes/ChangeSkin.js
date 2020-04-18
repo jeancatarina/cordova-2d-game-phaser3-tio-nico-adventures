@@ -21,6 +21,14 @@ export class ChangeSkin extends Phaser.Scene {
   createSkins() {
     const selectedSkin = storage.getSelectedSkin();
 
+    this.createClassicSkin(selectedSkin);
+
+    this.createBombadoSkin(selectedSkin);
+
+    this.createMarujoSkin(selectedSkin);
+  }
+
+  createClassicSkin(selectedSkin) {
     this.add.text(240, 180, "Tio Nico Raiz", {
       fontSize: "12px",
       fill: "#000",
@@ -36,6 +44,14 @@ export class ChangeSkin extends Phaser.Scene {
       .sprite(300, 100, "classicSkinRight", 0)
       .setScale(2);
 
+    this.store.classicSkin.setInteractive();
+    this.store.classicSkin.on(
+      "pointerdown",
+      this.setSelectedSkin.bind(this, "classicSkin")
+    );
+  }
+
+  createBombadoSkin(selectedSkin) {
     this.add.text(230, 380, "Tio Nico Bombado", {
       fontSize: "12px",
       fill: "#fff",
@@ -52,12 +68,6 @@ export class ChangeSkin extends Phaser.Scene {
       .sprite(300, 300, "bombadoSkinRight", 0)
       .setScale(2);
 
-    this.store.classicSkin.setInteractive();
-    this.store.classicSkin.on(
-      "pointerdown",
-      this.setSelectedSkin.bind(this, "classicSkin")
-    );
-
     this.store.bombadoSkin.setInteractive();
     this.store.bombadoSkin.on(
       "pointerdown",
@@ -65,10 +75,38 @@ export class ChangeSkin extends Phaser.Scene {
     );
   }
 
+  createMarujoSkin(selectedSkin) {
+    this.add.text(430, 380, "Tio Nico Marujo", {
+      fontSize: "12px",
+      fill: "#fff",
+    });
+    this.add.text(430, 390, "Custo: 1500 de score", {
+      fontSize: "12px",
+      fill: "#fff",
+    });
+    this.store.marujoSkinSelected = this.add
+      .sprite(500, 300, "marujoSkinRight", 0)
+      .setScale(2.2)
+      .setTintFill(selectedSkin === "marujoSkin" ? 0x00ff00 : 0xffffff);
+    this.store.marujoSkin = this.add
+      .sprite(500, 300, "marujoSkinRight", 0)
+      .setScale(2);
+
+    this.store.marujoSkin.setInteractive();
+    this.store.marujoSkin.on(
+      "pointerdown",
+      this.setSelectedSkin.bind(this, "marujoSkin")
+    );
+  }
+
   setSelectedSkin(skin) {
     const record = storage.getRecordScore();
 
     if (skin === "bombadoSkin" && record > 999) {
+      storage.setSelectedSkin(skin);
+    }
+
+    if (skin === "marujoSkin" && record > 1499) {
       storage.setSelectedSkin(skin);
     }
 
@@ -95,7 +133,7 @@ export class ChangeSkin extends Phaser.Scene {
 
     this.okButton.setScale(0.4);
     this.okButton.setInteractive();
-    this.okButton.on("pointerdown", this.goToMenuScene.bind(this));
+    this.okButton.on("pointerup", this.goToMenuScene.bind(this));
   }
 
   goToMenuScene() {
