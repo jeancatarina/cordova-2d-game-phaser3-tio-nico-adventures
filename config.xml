@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tionico" version="1.0.4" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.tionico" version="1.0.5" xmlns="http://www.w3.org/ns/widgets">
     <preference name="Orientation" value="landscape" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="AllowInlineMediaPlayback" value="true" />
     <name>Tio Nico Adventures</name>
     <description>
         Score adventure game
