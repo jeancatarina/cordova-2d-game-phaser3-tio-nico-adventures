@@ -18,7 +18,21 @@
   >
     <div
       id="joystickContainer"
-      style="height: 100%; touch-action: none; position: absolute; width: 50%;"
+      onselectstart="return false;"
+      ondragstart="return false;"
+      style="
+        height: 100%;
+        touch-action: none;
+        position: absolute;
+        width: 50%;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+      "
     ></div>
     <form id="usernameForm">
       <input
