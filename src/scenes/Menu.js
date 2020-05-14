@@ -37,6 +37,8 @@ export class Menu extends Phaser.Scene {
 
     this.createSoundButton();
 
+    this.createDonateButton();
+
     this.state = 1;
 
     this.sound.mute = storage.getIsMuted();
@@ -240,17 +242,28 @@ export class Menu extends Phaser.Scene {
     this.pressEnter.on("pointerup", this.goToChangeSkinScene.bind(this));
   }
 
+  createDonateButton() {
+    this.donateBtn = this.add.image(700, 200, "donateBtn");
+    this.donateBtn.setScale(0.5);
+    this.donateBtn.setInteractive();
+    this.donateBtn.on("pointerup", this.goToDonateScene.bind(this));
+  }
+
   createFollowMeBtn() {
     this.pressEnter = this.add.image(100, 350, "followMeBtn");
     this.pressEnter.setScale(0.5);
     this.pressEnter.setInteractive();
     this.pressEnter.on("pointerdown", () =>
-      window.open("https://www.instagram.com/jeancatarina", "_blank")
+      window.open("https://twitter.com/jeanscatarina", "_blank")
     );
   }
 
   goToChangeSkinScene() {
     this.scene.start("ChangeSkin");
+  }
+
+  goToDonateScene() {
+    this.scene.start("Donate");
   }
 
   setSoundState() {

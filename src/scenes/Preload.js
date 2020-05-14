@@ -10,6 +10,8 @@ import soundOffImage from "../assets/sprites/soundOff.png";
 import soundOnImage from "../assets/sprites/soundOn.png";
 import rankingImage from "../assets/images/ranking.png";
 import changeSkinBtn from "../assets/sprites/changeSkinBtn.png";
+import donateBtn from "../assets/sprites/donate.png";
+import picpayImage from "../assets/images/picpay.png";
 import followMeBtn from "../assets/sprites/followMe.png";
 
 // Play
@@ -87,7 +89,9 @@ export class Preload extends Phaser.Scene {
     this.load.image("soundOnImage", soundOnImage);
     this.load.image("rankingImage", rankingImage);
     this.load.image("changeSkinBtn", changeSkinBtn);
+    this.load.image("donateBtn", donateBtn);
     this.load.image("followMeBtn", followMeBtn);
+    this.load.image("picpayImage", picpayImage);
 
     // Play
     this.load.image("sky", skyImage);
